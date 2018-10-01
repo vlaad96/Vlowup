@@ -2,7 +2,7 @@
 
 2D Platformer created during Game Development subject.
 
-##Team members
+## Team members
 
 **Pol Bosch:** https://github.com/OhCaXulu
 
