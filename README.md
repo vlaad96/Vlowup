@@ -4,6 +4,6 @@
 
 ## Team members
 
-**Pol Bosch:** https://github.com/OhCaXulu
+**Pol Bosch:** [Github](https://github.com/OhCaXulu)
 
-**Vladislav Bulantsev:** https://github.com/vlaad96
+**Vladislav Bulantsev:** [Github](https://github.com/vlaad96)
