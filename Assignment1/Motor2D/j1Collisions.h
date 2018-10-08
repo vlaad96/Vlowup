@@ -54,7 +54,7 @@ public:
 	bool PreUpdate();
 	bool CleanUp();
 
-	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type)
+	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type);
 
 	void DebugDraw();
 
