@@ -1,6 +1,7 @@
 # Vlowup
 
-2D Platformer created during Game Development subject.
+2D Platformer created during Game Development subject by two students.
+
 
 ## Team members
 
