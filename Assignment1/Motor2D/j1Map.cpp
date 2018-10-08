@@ -31,41 +31,10 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	// TODO 5: Prepare the loop to draw all tilesets + Blit
+	//Background Blit
+	App->render->Blit(data.background, 0, 0);
 
-	uint tile_index;
-	uint layer_index;
-
-	for (layer_index = 0; layer_index < data.layers.count(); layer_index++) 
-	{
-
-		for (int i = 0; i < data.width; i++)
-		{
-
-			for (int j = 0; j < data.height; j++)
-			{
-
-				uint id = data.layers[layer_index]->data[data.layers[layer_index]->Get(i, j)];
-				if (id != 0) 
-				{
-					for (tile_index = 0; tile_index < data.tilesets.count(); tile_index++)
-					{
-
-						id -= (data.tilesets[tile_index]->firstgid - 1);
-						break;
-					}
-
-					SDL_Rect tile_rect = data.tilesets[tile_index]->GetTileRect(id);
-					int x = MapToWorld(i, j).x;
-					int y = MapToWorld(i, j).y;
-					App->render->Blit(data.tilesets[tile_index]->texture, x, y, &tile_rect);
-				}
-			}
-		}
-	}
-
-		// TODO 9: Complete the draw function
-
+	int i = 0;//counter
 }
 
 
@@ -88,6 +57,11 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	rect.x = margin + ((rect.w + spacing) * (relative_id % num_tiles_width));
 	rect.y = margin + ((rect.h + spacing) * (relative_id / num_tiles_width));
 	return rect;
+}
+
+SDL_Rect j1Map::Tile_Rect(int id_tile)
+{
+	id_tile = id_tile - data.tilesets.At(0)->data->firstgid;
 }
 
 // Called before quitting
@@ -164,7 +138,6 @@ bool j1Map::Load(const char* file_name)
 		data.tilesets.add(set);
 	}
 
-	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
 	pugi::xml_node layer;
 
