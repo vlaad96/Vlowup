@@ -1,4 +1,4 @@
-#include "j1App.h"
+/*#include "j1App.h"
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1Collisions.h"
@@ -31,4 +31,4 @@ bool j1Collisions::PreUpdate()
 	}
 
 	return true;
-}
+}*/

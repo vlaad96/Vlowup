@@ -15,10 +15,20 @@ struct MapLayer
 	uint width;
 	uint height;
 
-	uint* data = nullptr;
-	uint size = 0;
+	uint* data;
 
-	~MapLayer();
+	MapLayer() :data(NULL)
+	{}
+
+	~MapLayer()
+	{
+		RELEASE(data);
+	}
+
+	inline uint Get(int x, int y)const
+	{
+		return x + y * width;
+	}
 };
 
 
@@ -89,22 +99,14 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 
-	void Get(int x, int y);
-
-	SDL_Rect Tile_Rect(int id_tile);
-
-	void conversion();
-
-	int map = 0;
 
 private:
 
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
-	bool LoadLayer(pugi::xml_node& node);
-	bool LoadBackground(pugi::xml_node& node);
-	bool LoadMapProperties(pugi::xml_node& node);
+	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	
 
 public:
 

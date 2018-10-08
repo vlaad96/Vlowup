@@ -1,4 +1,4 @@
-#ifndef _j1PLAYER_H_
+/*#ifndef _j1PLAYER_H_
 #define _j1PLAYER_H_
 
 #include"j1Module.h"
@@ -39,5 +39,5 @@ public:
 
 
 };
-#endif // !_j1PLAYER_H_
+#endif // !_j1PLAYER_H_*/
 

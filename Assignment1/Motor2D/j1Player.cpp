@@ -1,4 +1,4 @@
-#include "j1App.h"
+/*#include "j1App.h"
 #include "j1Textures.h"
 #include "j1Input.h"
 #include "j1Render.h"
@@ -87,4 +87,4 @@ bool j1Player::Load(pugi::xml_node& data)
 bool j1Player::Save(pugi::xml_node& data) const
 {
 
-}
+}*/

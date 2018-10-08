@@ -1,4 +1,4 @@
-#ifndef _j1COLLISIONS_H_
+/*#ifndef _j1COLLISIONS_H_
 #define _j1COLLISIONS_H_
 
 #define MAX_COLLIDERS 1000
@@ -66,5 +66,5 @@ private:
 };
 
 
-#endif // !_j1COLLISIONS_H_
+#endif // !_j1COLLISIONS_H_*/
 
