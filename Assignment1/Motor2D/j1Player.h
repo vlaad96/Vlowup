@@ -13,7 +13,7 @@ class j1Player : public j1Module {
 	j1Player();
 	~j1Player();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node& config);
 
 	bool Start();
 	bool Update();

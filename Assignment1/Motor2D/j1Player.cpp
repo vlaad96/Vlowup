@@ -24,6 +24,9 @@ j1Player::j1Player()
 	idle.PushBack({ 4375,502,363,389 });
 	idle.PushBack({ 4791,502,363,389 });
 
+	idle.loop = true;
+	idle.speed = 20.0f;
+
 	//Running left
 
 	//Running right
@@ -42,12 +45,27 @@ j1Player::j1Player()
 	death.PushBack({ 3354,104,556,358 });
 	death.PushBack({ 3913,104,556,358 });
 
+	idle.loop = false;
+	idle.speed = 20.0f;
+
+	//Initial screen
+
+	current_animation = &idle;
+
 }
 
 j1Player::~j1Player()
 {
 	App->tex->UnLoad(graphics);
 
+}
+
+bool j1Player::Awake(pugi::xml_node& config)
+{
+	LOG("Initializing Player config");
+	pugi::xml_node player = config.child("player");
+
+	//position variables
 }
 
 bool j1Player::Start()
