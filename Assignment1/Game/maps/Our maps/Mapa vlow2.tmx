@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" infinite="0" nextobjectid="25">
  <tileset firstgid="1" source="Tileset2.tsx"/>
  <tileset firstgid="145" source="Tileset2.tsx"/>
  <imagelayer name="Background">
   <image source="../Background small.png" width="800" height="240"/>
  </imagelayer>
- <objectgroup name="Colliders"/>
  <layer name="Tiles" width="50" height="15">
   <data>
    <tile gid="13"/>
@@ -760,4 +759,32 @@
    <tile/>
   </data>
  </layer>
+ <objectgroup name="Colliders">
+  <object id="2" x="32.3333" y="64" width="111" height="32"/>
+  <object id="7" x="16.3333" y="144.333" width="175.667" height="63.3333"/>
+  <object id="8" x="208" y="111.667" width="63.6667" height="48"/>
+  <object id="9" x="192" y="32" width="63.6667" height="31.3333"/>
+  <object id="10" x="304.333" y="32">
+   <polygon points="0,0 30.6667,-0.333333 31.3333,15.6667 47.3333,16 47.6667,47.6667 0,47.6667"/>
+  </object>
+  <object id="11" x="384" y="48.3333">
+   <polygon points="0,0 16,0 16,-16.3333 79.3333,-16 79.3333,31 47.3333,30.3333 48,47.3333 0.333333,47"/>
+  </object>
+  <object id="12" x="416" y="144.333">
+   <polygon points="0,0 63.3333,0 63.3333,63 -129,63 -128,0 -65,0.333333 -64,15.6667 0.333333,16.3333"/>
+  </object>
+  <object id="14" x="511.667" y="160" width="16" height="15.6667"/>
+  <object id="15" x="544.333" y="159.667" width="15.3333" height="15.6667"/>
+  <object id="17" x="576.333" y="160" width="15.3333" height="15"/>
+  <object id="18" x="624.333" y="160.333" width="15" height="15.3333"/>
+  <object id="19" x="672" y="160.333" width="15.6667" height="15.3333"/>
+  <object id="21" x="496" y="48">
+   <polygon points="0,0 79.3333,0.333333 79.3333,31.3333 63,30.6667 63.3333,48 0,47.6667"/>
+  </object>
+  <object id="22" x="608.333" y="80" width="31.3333" height="31.6667"/>
+  <object id="23" x="687.333" y="80" width="32.3333" height="31.6667"/>
+  <object id="24" x="752" y="112">
+   <polygon points="0,0 31.6667,-0.333333 31.6667,79.3333 -32.3333,79.6667 -31.3333,32 0,32.6667"/>
+  </object>
+ </objectgroup>
 </map>
