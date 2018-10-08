@@ -22,7 +22,6 @@ struct MapLayer
 		RELEASE(data);
 	}
 
-	// TODO 6 (old): Short function to get the value of x,y
 	inline uint Get(int x, int y) const
 	{
 		return x + y * width;
@@ -101,6 +100,7 @@ private:
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	
 
 public:
 
