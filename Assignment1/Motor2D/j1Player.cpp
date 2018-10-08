@@ -10,6 +10,37 @@
 
 j1Player::j1Player()
 {
+	//Animations
+
+	//Idle
+	idle.PushBack({ 2,502,363,389 });
+	idle.PushBack({ 501,502,363,389 });
+	idle.PushBack({ 1059,502,363,389 });
+	idle.PushBack({ 1619,502,363,389 });
+	idle.PushBack({ 2181,502,363,389 });
+	idle.PushBack({ 2742,502,363,389 });
+	idle.PushBack({ 3297,502,363,389 });
+	idle.PushBack({ 3836,502,363,389 });
+	idle.PushBack({ 4375,502,363,389 });
+	idle.PushBack({ 4791,502,363,389 });
+
+	//Running left
+
+	//Running right
+
+	//Jumping left
+
+	//Jumping right
+
+	//Death
+	death.PushBack({ 3,104,556,358 });
+	death.PushBack({ 560,104,556,358 });
+	death.PushBack({ 1170,104,556,358 });
+	death.PushBack({ 1697,104,556,358 });
+	death.PushBack({ 2231,104,556,358 });
+	death.PushBack({ 2791,104,556,358 });
+	death.PushBack({ 3354,104,556,358 });
+	death.PushBack({ 3913,104,556,358 });
 
 }
 
@@ -25,7 +56,7 @@ bool j1Player::Start()
 
 }
 
-bool j1Player::PostUpdate()
+bool j1Player::Update()
 {
 
 }

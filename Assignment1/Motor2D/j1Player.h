@@ -13,10 +13,10 @@ class j1Player : public j1Module {
 	j1Player();
 	~j1Player();
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(pugi::xml_node&);
 
 	bool Start();
-	bool PostUpdate();
+	bool Update();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&)const;
@@ -24,13 +24,18 @@ class j1Player : public j1Module {
 public:
 
 	SDL_Texture * graphics = nullptr;
-	Animation* current_animation;
+	SDL_Texture* textures = nullptr;
+	SDL_Texture* godmode = nullptr;
+
+	Animation* current_animation = nullptr;
 	Animation idle;
-	Animation run;
-	Animation jump;
-	Animation fall;
+	Animation run_left;
+	Animation run_right;
+	Animation jump_left;
+	Animation jump_right;
 	Animation death;
-	Animation slide;
+
+	Collider* player_collider = nullptr;
 
 
 };
