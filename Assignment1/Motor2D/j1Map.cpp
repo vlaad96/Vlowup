@@ -31,27 +31,40 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	//Blit for Background
+	// TODO 5: Prepare the loop to draw all tilesets + Blit
 
-	App->render->Blit(data.background);
+	uint tile_index;
+	uint layer_index;
 
-	int i = 0; // a counter variable
-	while (i < data.layers.At(0)->data->height * data.layers.At(0)->data->width)
+	for (layer_index = 0; layer_index < data.layers.count(); layer_index++) 
 	{
-		int id = data.layers.At(0)->data->data[i];
 
-		if (id != 0)
+		for (int i = 0; i < data.width; i++)
 		{
-			int x = i;
-			int y = data.layers.At(0)->data->width;
-			Get(&x, &y);
 
-			conversion(&x, &y);
+			for (int j = 0; j < data.height; j++)
+			{
 
-			App->render->Blit(data.tilesets.At(0)->data->texture, x, y, 1, &Tile_Rect(id));
+				uint id = data.layers[layer_index]->data[data.layers[layer_index]->Get(i, j)];
+				if (id != 0) 
+				{
+					for (tile_index = 0; tile_index < data.tilesets.count(); tile_index++)
+					{
+
+						id -= (data.tilesets[tile_index]->firstgid - 1);
+						break;
+					}
+
+					SDL_Rect tile_rect = data.tilesets[tile_index]->GetTileRect(id);
+					int x = MapToWorld(i, j).x;
+					int y = MapToWorld(i, j).y;
+					App->render->Blit(data.tilesets[tile_index]->texture, x, y, &tile_rect);
+				}
+			}
 		}
-		i++;
 	}
+
+		// TODO 9: Complete the draw function
 
 }
 
@@ -77,7 +90,6 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	return rect;
 }
 
-
 // Called before quitting
 bool j1Map::CleanUp()
 {
@@ -87,6 +99,9 @@ bool j1Map::CleanUp()
 	p2List_item<TileSet*>* item;
 	item = data.tilesets.start;
 
+	p2List_item<MapLayer*>* item_1;
+	item_1 = data.layers.start;
+
 	while(item != NULL)
 	{
 		RELEASE(item->data);
@@ -94,18 +109,16 @@ bool j1Map::CleanUp()
 	}
 	data.tilesets.clear();
 
+	// TODO 2: clean up all layer data
 	// Remove all layers
-	p2List_item<MapLayer*>* item_1;
-	item_1 = data.layers.start;
-
 	while (item_1 != NULL)
 	{
 		RELEASE(item_1->data);
 		item_1 = item_1->next;
 	}
 	data.layers.clear();
-	App->tex->UnLoad(data.background);
-	
+
+
 	// Clean up the pugui tree
 	map_file.reset();
 
@@ -132,9 +145,6 @@ bool j1Map::Load(const char* file_name)
 		ret = LoadMap();
 	}
 
-	LoadBackground(map_file);
-	LoadMapPropierties(map_file);
-
 	// Load all tilesets info ----------------------------------------------
 	pugi::xml_node tileset;
 	for(tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
@@ -154,6 +164,7 @@ bool j1Map::Load(const char* file_name)
 		data.tilesets.add(set);
 	}
 
+	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
 	pugi::xml_node layer;
 

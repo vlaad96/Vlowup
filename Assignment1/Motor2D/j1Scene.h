@@ -8,10 +8,6 @@ struct SDL_Texture;
 class j1Scene : public j1Module
 {
 public:
-	SDL_Texture * win;
-
-	uint time;
-	bool finish_time;
 
 	j1Scene();
 
