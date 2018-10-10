@@ -29,6 +29,18 @@ j1Player::j1Player()
 	//death.speed = 0.8;
 
 	//idle animation
+	idle.PushBack({ 0,495,502,396 });
+	idle.PushBack({ 502,495,502,396 });
+	idle.PushBack({ 1004,495,502,396 });
+	idle.PushBack({ 1508,495,502,396 });
+	idle.PushBack({ 2012,495,502,396 });
+	idle.PushBack({ 2516,495,502,396 });
+	idle.PushBack({ 3020,495,502,396 });
+	idle.PushBack({ 3524,495,502,396 });
+	idle.PushBack({ 4028,495,502,396 });
+	idle.PushBack({ 4532,495,502,396 });   
+
+
 
 
 	//running animation
@@ -44,7 +56,7 @@ j1Player::j1Player()
 	//jump.PushBack({ 2200,0,476,440 });		//
 	//jump.PushBack({ 2640,0,476,440 });		//
 	//jump.PushBack({ 3080,0,476,440 });		//
-	//jump.PushBack({ 3520,0,476,440 });		//
+	//jump.PushBack({ 3520,0,476,440 });        //
 	//jump.PushBack({ 3960,0,476,440 });		//Top
 	//jump.PushBack({ 4400,0,476,440 });		//Droping
 	//jump.PushBack({ 4840,0,476,440 });		//Touching floor
