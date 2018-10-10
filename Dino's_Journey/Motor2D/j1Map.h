@@ -102,6 +102,8 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 
+	int map = 0;//Initializing map
+
 private:
 
 	bool LoadMap();
