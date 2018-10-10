@@ -34,8 +34,22 @@ j1Player::j1Player()
 	//running animation
 
 	//jumping animation
+	
+	//FROM JUMPY SPRITE 
+	//jump.PushBack({ 0,0,476,440 });			//Standing
+	//jump.PushBack({ 440,0,476,440 });			//Preprejump
+	//jump.PushBack({ 880,0,476,440 });			//Prejump
+	//jump.PushBack({ 1320,0,476,440 });		//Elevating
+	//jump.PushBack({ 1760,0,476,440 });		//Floating
+	//jump.PushBack({ 2200,0,476,440 });		//
+	//jump.PushBack({ 2640,0,476,440 });		//
+	//jump.PushBack({ 3080,0,476,440 });		//
+	//jump.PushBack({ 3520,0,476,440 });		//
+	//jump.PushBack({ 3960,0,476,440 });		//Top
+	//jump.PushBack({ 4400,0,476,440 });		//Droping
+	//jump.PushBack({ 4840,0,476,440 });		//Touching floor
 
-	current_animation = &idle;
+	current_animation = &idle; //should be &jump?
 }
 
 j1Player::~j1Player()
