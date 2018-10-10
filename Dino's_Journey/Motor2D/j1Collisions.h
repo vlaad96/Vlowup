@@ -47,7 +47,7 @@ struct Collider
 	bool WillCollideRight(const SDL_Rect& r, int distance) const;
 	bool WillCollideGround(const SDL_Rect& r, int distance) const;
 	bool WillCollideTop(const SDL_Rect& r, int distance) const;
-
+	//bool CheckCollision(const SDL_Rect &r) const;
 
 };
 
@@ -64,8 +64,10 @@ public:
 	//void Erase_Non_Player_Colliders();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type);
-
+	
 	void DebugDraw();
+	
+	void MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r);
 
 private:
 

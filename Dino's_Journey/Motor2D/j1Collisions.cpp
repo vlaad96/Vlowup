@@ -200,3 +200,35 @@ bool Collider::WillCollideTop(const SDL_Rect& r, int distance) const
 		return false;
 	}
 }
+
+//bool Collider::CheckCollision(const SDL_Rect &r) const {
+//
+//	if ((r.x + r.w) < rect.x || (r.y + r.h) < rect.y || r.x > (rect.x + rect.w) || r.y > (rect.y + rect.h)) { return false; }
+//	return true;
+//}
+
+//THIS WILL GRAB THE TILES FROM THE MAP FROM LAYER "Colliders" AND TRANSFORM THEM INTO COLLIDERS (incomplete)
+void j1Collisions::MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r) { //At node pass the node layer = map_file.child("map").child("layer") It's at the map
+
+	/*p2List_item<MapLayer*>*layers = App->map->data.layers.start;*/
+
+	for (p2List_item<MapLayer*>*layers = App->map->data.layers.start; layers != nullptr; layers = layers->next) 
+	{
+		if (layers->data->name == "Colliders") {
+
+			pugi::xml_node layer_data = node.child("data");
+
+			for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile")) {
+
+				/*if (tile.attribute("gid").as_int() == 39) {
+
+
+				}*/
+			}
+
+			break;
+		}
+	}
+
+	LOG("Error Parsing map, couldn't find colliders layer");
+}
