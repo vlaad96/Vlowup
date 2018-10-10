@@ -27,7 +27,7 @@ struct MapLayer
 
 	inline uint Get(int x, int y)const
 	{
-		return x + y * width;
+		return data[(y*width) + x];
 	}
 };
 
@@ -43,7 +43,6 @@ struct TileSet
 	int					spacing;
 	int					tile_width;
 	int					tile_height;
-
 	SDL_Texture*		texture;
 	int					tex_width;
 	int					tex_height;
@@ -98,6 +97,7 @@ public:
 	bool Load(const char* path);
 
 	iPoint MapToWorld(int x, int y) const;
+	iPoint WorldToMap(int x, int y)const;
 
 
 private:
@@ -107,6 +107,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	
+	TileSet* GetTilesetFromTileId(int id)const;
 
 public:
 
