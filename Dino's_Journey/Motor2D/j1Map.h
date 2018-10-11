@@ -76,6 +76,11 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
+	//Personalized Atributes
+	iPoint player_starting_point;
+	iPoint player_ending_point;
+	float parallax_speed;
+
 };
 
 // ----------------------------------------------------

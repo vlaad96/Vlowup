@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="64" tileheight="64" infinite="0" nextobjectid="48">
+ <properties>
+  <property name="Ending_Pos_X" type="int" value="3008"/>
+  <property name="Ending_Pos_Y" type="int" value="320"/>
+  <property name="Parallax_Speed" type="float" value="0.5"/>
+  <property name="Starting_Pos_X" type="int" value="64"/>
+  <property name="Starting_Pos_Y" type="int" value="448"/>
+ </properties>
  <tileset firstgid="1" name="Tileset22" tilewidth="64" tileheight="64" tilecount="144" columns="16">
   <image source="Tileset22.png" width="1024" height="576"/>
   <terraintypes>
@@ -46,11 +53,14 @@
  <tileset firstgid="145" name="Collider Tileset" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="Collider Tileset.png" width="128" height="128"/>
  </tileset>
+ <imagelayer name="Capa de Imagen 1">
+  <image source="Background.png" width="3400" height="2400"/>
+ </imagelayer>
  <layer name="Capa de patrones1" width="50" height="15">
   <properties>
    <property name="Draw" type="bool" value="true"/>
-   <property name="EndPosX" type="int" value="3072"/>
-   <property name="EndPosY" type="int" value="384"/>
+   <property name="EndPosX" type="int" value="3008"/>
+   <property name="EndPosY" type="int" value="320"/>
    <property name="StartPosX" type="int" value="64"/>
    <property name="StartPosY" type="int" value="448"/>
   </properties>
@@ -352,8 +362,8 @@
    <tile gid="65"/>
    <tile gid="65"/>
    <tile gid="65"/>
-   <tile gid="65"/>
-   <tile gid="65"/>
+   <tile gid="109"/>
+   <tile gid="110"/>
    <tile gid="17"/>
    <tile gid="20"/>
    <tile gid="65"/>
@@ -402,8 +412,8 @@
    <tile gid="65"/>
    <tile gid="65"/>
    <tile gid="65"/>
-   <tile gid="65"/>
-   <tile gid="121"/>
+   <tile gid="125"/>
+   <tile gid="126"/>
    <tile gid="17"/>
    <tile gid="20"/>
    <tile gid="65"/>

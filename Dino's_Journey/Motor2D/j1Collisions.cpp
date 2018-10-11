@@ -210,23 +210,23 @@ bool Collider::WillCollideTop(const SDL_Rect& r, int distance) const
 //THIS WILL GRAB THE TILES FROM THE MAP FROM LAYER "Colliders" AND TRANSFORM THEM INTO COLLIDERS (incomplete)
 void j1Collisions::MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r) { //At node pass the node layer = map_file.child("map").child("layer") It's at the map
 
-	/*p2List_item<MapLayer*>*layers = App->map->data.layers.start;*/
-
 	for (p2List_item<MapLayer*>*layers = App->map->data.layers.start; layers != nullptr; layers = layers->next) 
 	{
-		if (layers->data->name == "Colliders") {
+		if (layers->data->name == "Colliders") 
+		{
+			for (int y = 0; y < App->map->data.height; ++y)
+			{
+				for (int x = 0; x < App->map->data.width; ++x)
+				{
+					int tile_id = layers->data->Get(x, y);
+					if (tile_id == 145) {
 
-			pugi::xml_node layer_data = node.child("data");
+						iPoint pos = App->map->MapToWorld(x, y);
+						App->collision->AddCollider({ pos.x, pos.y, App->map->data.tile_width, App->map->data.tile_height }, COLLIDER_WALL);
 
-			for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile")) {
-
-				/*if (tile.attribute("gid").as_int() == 39) {
-
-
-				}*/
+					}
+				}
 			}
-
-			break;
 		}
 	}
 
