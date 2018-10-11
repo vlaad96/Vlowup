@@ -39,6 +39,8 @@ public:
 
 	fPoint speed;
 	fPoint position;
+	iPoint touching; //It says if the player is touching the ground or walls
+	//x for left and right walls and y for ground and ceiling.
 
 public:
 

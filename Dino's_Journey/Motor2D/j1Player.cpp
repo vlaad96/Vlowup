@@ -90,9 +90,6 @@ bool j1Player::Start()
 		ret = false;
 	}
 
-	position.x = 64.0f;
-	position.y = 384.0f;
-
 	current_animation = &idle;
 
 
@@ -106,14 +103,24 @@ bool j1Player::Start()
 
 bool j1Player::Update()
 {
-	//Blit
-	App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame());
+	if (dead)
+	{
+		current_animation = &death;
 
-	//Camera to follow the player
-	App->render->camera.x = -position.x + 400;
-	App->render->camera.y = -position.y + 400;
+		if (current_animation->Finished())
+		{
+			death.Reset();
+			dead = false;
+		}
+	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+
+	}
+	
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT) 
 	{
 		if (!godmode)
 		{
@@ -167,4 +174,10 @@ bool j1Player::Load(pugi::xml_node& data)
 	}
 
 	return true;
+}
+
+void j1Player::Jump()
+{
+
+
 }
