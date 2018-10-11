@@ -11,7 +11,8 @@
   </renderer>
 
   <player>
-  
+  <speed_modifier.x value = ""/>
+  <speed_modifier.y value = ""/>
   </player>
   <window>
     <resolution width="1024" height="768" scale="1"/>

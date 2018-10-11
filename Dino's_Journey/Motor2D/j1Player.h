@@ -27,12 +27,14 @@ public:
 	//Special movements
 
 	void Jump();
+	void Slide();
 
 public:
 
 	Collider * col;
 
 	bool jumping = false;
+	bool sliding = false;
 	bool dead = false;
 	bool won = false;
 	bool godmode = false;
@@ -41,6 +43,8 @@ public:
 	fPoint position;
 	iPoint touching; //It says if the player is touching the ground or walls
 	//x for left and right walls and y for ground and ceiling.
+	iPoint sprite_dist;
+	fPoint speed_modifier;
 
 public:
 
@@ -50,6 +54,7 @@ public:
 	Animation run;
 	Animation jump;
 	Animation death;
+	Animation slide;
 };
 
 #endif //_j1PLAYER_H_

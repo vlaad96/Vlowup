@@ -201,11 +201,22 @@ bool Collider::WillCollideTop(const SDL_Rect& r, int distance) const
 	}
 }
 
-//bool Collider::CheckCollision(const SDL_Rect &r) const {
-//
-//	if ((r.x + r.w) < rect.x || (r.y + r.h) < rect.y || r.x > (rect.x + rect.w) || r.y > (rect.y + rect.h)) { return false; }
-//	return true;
-//}
+bool j1Collisions::CheckCollisionAfterSlide(const SDL_Rect& r, int dist) const
+{
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		// skip empty and player colliders
+		if (colliders[i] == nullptr || colliders[i]->type == COLLIDER_NONE || colliders[i]->type == COLLIDER_PLAYER)
+			continue;
+
+		if (colliders[i]->type == COLLIDER_WALL && colliders[i]->WillCollideTop(r, dist))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 
 //THIS WILL GRAB THE TILES FROM THE MAP FROM LAYER "Colliders" AND TRANSFORM THEM INTO COLLIDERS (incomplete)
 void j1Collisions::MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r) { //At node pass the node layer = map_file.child("map").child("layer") It's at the map
