@@ -151,6 +151,7 @@ SDL_Rect ImageLayer::GetImageRect() const
 
 	return rect;
 }
+
 // Called before quitting
 bool j1Map::CleanUp()
 {
@@ -285,6 +286,19 @@ bool j1Map::Load(const char* file_name)
 			item_layer = item_layer->next;
 		}
 	}
+	//Load Properties ----------------------------
+	LoadPropiertiesOfMap(map_file);
+
+	//Create the colliders of the map
+	/*if (ret = true)
+	{
+		CreateColliders();
+	}*/
+
+	
+	//Set player starting position
+	//App->player->position.x = data.player_starting_value.x;
+	//App->player->position.y = data.player_starting_value.y;
 
 	map_loaded = ret;
 
