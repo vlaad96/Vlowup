@@ -85,6 +85,17 @@ bool j1Player::Start()
 	bool ret = true;
 	graphics = App->tex->Load("textures/SpriteSheet.png");
 
+	if (graphics == nullptr) {
+		LOG("Error loading player textures %s", SDL_GetError);
+		ret = false;
+	}
+
+	position.x = 64.0f;
+	position.y = 384.0f;
+
+	current_animation = &idle;
+
+
 	SDL_Rect ground{};
 	SDL_Rect collider_player_rect{};
 
@@ -101,6 +112,16 @@ bool j1Player::Update()
 	//Camera to follow the player
 	App->render->camera.x = -position.x + 400;
 	App->render->camera.y = -position.y + 400;
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT)
+	{
+		if (!godmode)
+		{
+			godmode = true;
+		}
+		else
+			godmode = false;
+	}
 
 	return true;
 }

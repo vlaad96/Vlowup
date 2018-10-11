@@ -35,6 +35,7 @@ public:
 	bool jumping = false;
 	bool dead = false;
 	bool won = false;
+	bool godmode = false;
 
 	fPoint speed;
 	fPoint position;
