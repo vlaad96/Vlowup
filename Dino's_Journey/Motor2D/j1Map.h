@@ -11,8 +11,6 @@
 struct Properties
 {
 	bool Draw;
-	iPoint StartPos;
-	iPoint EndPos;
 };
 
 // ----------------------------------------------------
@@ -58,6 +56,15 @@ struct TileSet
 	int					offset_y;
 };
 
+struct ImageLayer
+{
+	SDL_Rect GetImageRect()const;
+	p2SString			name;
+	int					width;
+	int					height;
+	SDL_Texture*		texture;
+};
+
 enum MapTypes
 {
 	MAPTYPE_UNKNOWN = 0,
@@ -65,6 +72,7 @@ enum MapTypes
 	MAPTYPE_ISOMETRIC,
 	MAPTYPE_STAGGERED
 };
+
 // ----------------------------------------------------
 struct MapData
 {
@@ -76,11 +84,11 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
-	//Personalized Atributes
+	p2List<ImageLayer*>	images;
+	//Custom Properties
 	iPoint player_starting_point;
 	iPoint player_ending_point;
 	float parallax_speed;
-
 };
 
 // ----------------------------------------------------
@@ -116,8 +124,9 @@ private:
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-	bool LoadProperties(pugi::xml_node& node, Properties& properties);
-
+	bool LoadImageBackground(pugi::xml_node& node, ImageLayer* imagelayer);
+	bool LoadPropertiesOfLayers(pugi::xml_node& node, Properties& properties);
+	bool LoadPropiertiesOfMap(pugi::xml_node& node);
 	TileSet* GetTilesetFromTileId(int id) const;
 
 public:

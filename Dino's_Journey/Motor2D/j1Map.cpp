@@ -31,7 +31,11 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	// TODO 4: Make sure we draw all the layers and not just the first one
+	for (int i = 0; i < data.images.count(); ++i)
+	{
+		App->render->Blit(data.images[i]->texture, 0, 0, &data.images[i]->GetImageRect());
+	}
+	
 	MapLayer* layer;// = this->data.layers.start->data;
 
 	for (int i = 0; i < data.tilesets.count(); ++i)
@@ -135,6 +139,18 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	return rect;
 }
 
+SDL_Rect ImageLayer::GetImageRect() const
+{
+	SDL_Rect rect;
+
+	rect.w = width;
+	rect.h = height;
+
+	rect.x = 0;		//IS THIS HARDCODING??
+	rect.y = 0;
+
+	return rect;
+}
 // Called before quitting
 bool j1Map::CleanUp()
 {
@@ -161,6 +177,17 @@ bool j1Map::CleanUp()
 		item2 = item2->next;
 	}
 	data.layers.clear();
+
+	// Remove all image layers
+	p2List_item<ImageLayer*>* item3;
+	item3 = data.images.start;
+
+	while (item3 != NULL)
+	{
+		RELEASE(item3->data);
+		item3 = item3->next;
+	}
+	data.images.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -217,6 +244,18 @@ bool j1Map::Load(const char* file_name)
 
 		if(ret == true)
 			data.layers.add(lay);
+	}
+
+	//Load Image layer info ----------------------------
+	pugi::xml_node imagelayer;
+	for (imagelayer = map_file.child("map").child("imagelayer"); imagelayer && ret; imagelayer = imagelayer.next_sibling("imagelayer"))
+	{
+		ImageLayer* imageList = new ImageLayer();
+
+		ret = LoadImageBackground(imagelayer, imageList);
+
+		if (ret == true)
+			data.images.add(imageList);
 	}
 
 	if(ret == true)
@@ -379,39 +418,87 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
+bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* maplayer)
 {
 	bool ret = true;
 
-	layer->name = node.attribute("name").as_string();
-	layer->width = node.attribute("width").as_int();
-	layer->height = node.attribute("height").as_int();
-	LoadProperties(node, layer->properties);
+	maplayer->name = node.attribute("name").as_string();
+	maplayer->width = node.attribute("width").as_int();
+	maplayer->height = node.attribute("height").as_int();
+	LoadPropertiesOfLayers(node, maplayer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
 	if(layer_data == NULL)
 	{
 		LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
 		ret = false;
-		RELEASE(layer);
+		RELEASE(maplayer);
 	}
 	else
 	{
-		layer->data = new uint[layer->width*layer->height];
-		memset(layer->data, 0, layer->width*layer->height);
+		maplayer->data = new uint[maplayer->width*maplayer->height];
+		memset(maplayer->data, 0, maplayer->width*maplayer->height);
 
 		int i = 0;
 		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			layer->data[i++] = tile.attribute("gid").as_int(0);
+			maplayer->data[i++] = tile.attribute("gid").as_int(0);
 		}
 	}
 
 	return ret;
 }
 
+bool j1Map::LoadImageBackground(pugi::xml_node& node, ImageLayer* imagelayer)
+{
+	bool ret = true;
+
+	imagelayer->name = node.attribute("name").as_string();
+	imagelayer->width = node.child("image").attribute("width").as_int();
+	imagelayer->height = node.child("image").attribute("height").as_int();
+	imagelayer->texture = App->tex->Load(PATH(folder.GetString(), node.child("image").attribute("source").as_string()));
+
+	return ret;
+}
+
+bool j1Map::LoadPropiertiesOfMap(pugi::xml_node& node)
+{
+	for (pugi::xml_node iterator = node.child("map").child("properties").child("property"); iterator != nullptr; iterator = iterator.next_sibling())
+	{
+		p2SString name = iterator.attribute("name").as_string();
+
+		if (name == "Parallax_Speed")
+		{
+			data.parallax_speed = iterator.attribute("value").as_float();
+		}
+
+		if (name == "Starting_Pos_X")
+		{
+			data.player_starting_point.x = iterator.attribute("value").as_float();
+		}
+
+		if (name == "Starting_Pos_Y")
+		{
+			data.player_starting_point.y = iterator.attribute("value").as_float();
+		}
+
+		if (name == "Ending_Pos_X")
+		{
+			data.player_ending_point.x = iterator.attribute("value").as_float();
+		}
+
+		if (name == "Ending_Pos_Y")
+		{
+			data.player_ending_point.y = iterator.attribute("value").as_int();
+		}
+	}
+
+	return true;
+}
+
+
 // Load a group of properties from a node and fill a list with it
-bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+bool j1Map::LoadPropertiesOfLayers(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
 
