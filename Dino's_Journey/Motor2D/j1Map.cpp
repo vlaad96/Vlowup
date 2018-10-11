@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Player.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -65,8 +66,6 @@ void j1Map::Draw()
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
-	// TODO 3: Complete this method so we pick the right
-	// Tileset based on a tile id
 
 	for (int i = 0; i < data.tilesets.count()-1; ++i)
 	{
@@ -88,11 +87,6 @@ iPoint j1Map::MapToWorld(int x, int y) const
 		ret.x = x * data.tile_width;
 		ret.y = y * data.tile_height;
 	}
-	else if(data.type == MAPTYPE_ISOMETRIC)
-	{
-		ret.x = (x - y) * (data.tile_width * 0.5f);
-		ret.y = (x + y) * (data.tile_height * 0.5f);
-	}
 	else
 	{
 		LOG("Unknown map type");
@@ -111,14 +105,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		ret.x = x / data.tile_width;
 		ret.y = y / data.tile_height;
 	}
-	else if(data.type == MAPTYPE_ISOMETRIC)
-	{
-		
-		float half_width = data.tile_width * 0.5f;
-		float half_height = data.tile_height * 0.5f;
-		ret.x = int( (x / half_width + y / half_height) / 2);
-		ret.y = int( (y / half_height - (x / half_width)) / 2);
-	}
+
 	else
 	{
 		LOG("Unknown map type");
@@ -215,6 +202,7 @@ bool j1Map::Load(const char* file_name)
 	{
 		ret = LoadMap();
 	}
+	
 
 	// Load all tilesets info ----------------------------------------------
 	pugi::xml_node tileset;
@@ -297,8 +285,8 @@ bool j1Map::Load(const char* file_name)
 
 	
 	//Set player starting position
-	//App->player->position.x = data.player_starting_value.x;
-	//App->player->position.y = data.player_starting_value.y;
+	App->player->position.x = data.player_start_point.x;
+	App->player->position.y = data.player_start_point.y;
 
 	map_loaded = ret;
 
@@ -488,22 +476,22 @@ bool j1Map::LoadPropiertiesOfMap(pugi::xml_node& node)
 
 		if (name == "Starting_Pos_X")
 		{
-			data.player_starting_point.x = iterator.attribute("value").as_float();
+			data.player_start_point.x = iterator.attribute("value").as_float();
 		}
 
 		if (name == "Starting_Pos_Y")
 		{
-			data.player_starting_point.y = iterator.attribute("value").as_float();
+			data.player_start_point.y = iterator.attribute("value").as_float();
 		}
 
 		if (name == "Ending_Pos_X")
 		{
-			data.player_ending_point.x = iterator.attribute("value").as_float();
+			data.player_end_point.x = iterator.attribute("value").as_float();
 		}
 
 		if (name == "Ending_Pos_Y")
 		{
-			data.player_ending_point.y = iterator.attribute("value").as_int();
+			data.player_end_point.y = iterator.attribute("value").as_int();
 		}
 	}
 

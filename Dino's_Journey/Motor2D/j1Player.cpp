@@ -137,10 +137,40 @@ bool j1Player::Update()
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 
+		if (touching.y == 1)
+
+			current_animation = &run;
+		if (touching.x != 1)
+
+			speed.x = -speed_modifier.x;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+
+		if (touching.y == 1)
+
+			current_animation = &run;
+
+		if (touching.x != 2)
+
+			speed.x = speed_modifier.x;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+
+		if (touching.y == 1)
+
+			jumping = true;
+
+		if (touching.x != 1)
+
+			speed.x = -speed_modifier.x;
 	}
 	
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT) 
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) 
 	{
 		if (!godmode)
 		{
@@ -150,6 +180,35 @@ bool j1Player::Update()
 			godmode = false;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		if (App->map->map != 0)
+		{
+			App->map->map = 0;
+			App->map->CleanUp();
+			App->map->Load("Level_1test.tmx");
+		}
+
+
+		position.x = App->map->data.player_start_point.x;
+		position.y = App->map->data.player_start_point.y;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		position.x = App->map->data.player_start_point.x;
+		position.y = App->map->data.player_start_point.y;
+	}
+
+	Jump();
+	//Slide();
+
+	App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame());
+
+	//Camera for player
+
+	App->render->camera.x = -position.x;
+	App->render->camera.y = -position.y;
 	return true;
 }
 

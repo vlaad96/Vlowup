@@ -38,8 +38,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
-	AddModule(scene);
 	AddModule(player);
+	AddModule(scene);
 	AddModule(collision);
 
 	// render last to swap buffer
@@ -280,27 +280,19 @@ const char* j1App::GetOrganization() const
 // Load / Save
 void j1App::LoadGame(const char* file)
 {
-	// we should be checking if that file actually exist
-	// from the "GetSaveGames" list
 	want_to_load = true;
-	//load_game.create("%s%s", fs->GetSaveDirectory(), file);
 }
 
 // ---------------------------------------
 void j1App::SaveGame(const char* file) const
 {
-	// we should be checking if that file actually exist
-	// from the "GetSaveGames" list ... should we overwrite ?
+	
 
 	want_to_save = true;
-	//save_game.create(file);
+
 }
 
 // ---------------------------------------
-void j1App::GetSaveGames(p2List<p2SString>& list_to_fill) const
-{
-	// need to add functionality to file_system module for this to work
-}
 
 bool j1App::LoadGameNow(const char* file_name)
 {
@@ -345,7 +337,7 @@ bool j1App::SavegameNow(const char* file_name) const
 
 	LOG("Saving Game State to %s...", file_name);
 
-	// xml object were we will store all data
+
 	pugi::xml_document data;
 	pugi::xml_node root;
 	
@@ -365,8 +357,6 @@ bool j1App::SavegameNow(const char* file_name) const
 		data.save_file(file_name);
 		data.save(stream);
 
-		// we are done, so write data to disk
-		//fs->Save(save_game.GetString(), stream.str().c_str(), stream.str().length());
 		LOG("... finished saving", file_name);
 	}
 	else

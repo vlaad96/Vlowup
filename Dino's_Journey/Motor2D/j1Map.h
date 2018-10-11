@@ -86,9 +86,10 @@ struct MapData
 	p2List<MapLayer*>	layers;
 	p2List<ImageLayer*>	images;
 	//Custom Properties
-	iPoint player_starting_point;
-	iPoint player_ending_point;
+	fPoint player_start_point;
+	fPoint player_end_point;
 	float parallax_speed;
+	int camera_limit_y;
 };
 
 // ----------------------------------------------------

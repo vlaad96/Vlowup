@@ -31,6 +31,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("maps/Level_1test.tmx");
+	App->map->map = 0;
 	
 	return true;
 }
@@ -50,7 +51,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
-	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		App->render->camera.y += 1;
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
@@ -60,7 +61,12 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x += 1;
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 1;*/
+		App->render->camera.x -= 1;
+
+	if (App->render->camera.y < App->map->data.camera_limit_y)
+	{
+		App->render->camera.y = App->map->data.camera_limit_y;
+	}
 
 
 	App->map->Draw();
