@@ -14,54 +14,59 @@ j1Player::j1Player()
 	position.x = 0;
 	position.y = 0;
 
+	int row = 0;
+	sprite_dist.x = 100;
+	sprite_dist.y = 80;
+
 	//When you die
+	for (int i = 0; i < 8; i++)
+	{
+		death.PushBack({ sprite_dist.x*i, sprite_dist.y*row, 99,73 });
 
-	death.PushBack({ 3,104,556,358 });
-	death.PushBack({ 560,104,556,358 });
-	death.PushBack({ 1170,104,556,358 });
-	death.PushBack({ 1697,104,556,358 });
-	death.PushBack({ 2231,104,556,358 });
-	death.PushBack({ 2791,104,556,358 });
-	death.PushBack({ 3354,104,556,358 });
-	death.PushBack({ 3913,104,556,358 });
-
-	//death.loop = false;
-	//death.speed = 0.8;
+		death.loop = false;
+		death.speed = 0.8f;
+		row++;
+	}
 
 	//idle animation
-	idle.PushBack({ 0,495,502,396 });
-	idle.PushBack({ 502,495,502,396 });
-	idle.PushBack({ 1004,495,502,396 });
-	idle.PushBack({ 1508,495,502,396 });
-	idle.PushBack({ 2012,495,502,396 });
-	idle.PushBack({ 2516,495,502,396 });
-	idle.PushBack({ 3020,495,502,396 });
-	idle.PushBack({ 3524,495,502,396 });
-	idle.PushBack({ 4028,495,502,396 });
-	idle.PushBack({ 4532,495,502,396 });   
+	
+	for (int i = 0; i < 10; i++)
+	{
+		idle.PushBack({ sprite_dist.x*i, sprite_dist.y*row, 99,73 });
 
-
-
+		idle.loop = true;
+		idle.speed = 0.8f;
+		row++;
+	}
 
 	//running animation
 
-	//jumping animation
-	
-	//FROM JUMPY SPRITE 
-	//jump.PushBack({ 0,0,476,440 });			//Standing
-	//jump.PushBack({ 440,0,476,440 });			//Preprejump
-	//jump.PushBack({ 880,0,476,440 });			//Prejump
-	//jump.PushBack({ 1320,0,476,440 });		//Elevating
-	//jump.PushBack({ 1760,0,476,440 });		//Floating
-	//jump.PushBack({ 2200,0,476,440 });		//
-	//jump.PushBack({ 2640,0,476,440 });		//
-	//jump.PushBack({ 3080,0,476,440 });		//
-	//jump.PushBack({ 3520,0,476,440 });        //
-	//jump.PushBack({ 3960,0,476,440 });		//Top
-	//jump.PushBack({ 4400,0,476,440 });		//Droping
-	//jump.PushBack({ 4840,0,476,440 });		//Touching floor
+	for (int i = 0; i < 8; i++)
+	{
+		run.PushBack({ sprite_dist.x*i, sprite_dist.y*row, 99,73 });
 
-	current_animation = &idle; //should be &jump?
+		run.loop = true;
+		row++;
+	}
+
+	//jumping animation
+
+	for (int i = 0; i < 7; i++)
+	{
+		jump.PushBack({ sprite_dist.x*i, sprite_dist.y*row, 99,73 });
+
+		jump.loop = false;
+		row++;
+	}
+	
+	for (int i = 0; i < 3; i++)
+	{
+		slide.PushBack({ sprite_dist.x*i, sprite_dist.y*row, 99,73 });
+
+		slide.loop = false;
+		row++;
+	}
+	
 }
 
 j1Player::~j1Player()
@@ -75,6 +80,9 @@ bool j1Player::Awake(pugi::xml_node& conf)
 {
 	LOG("Initializing Player config");
 	pugi::xml_node player = conf.child("player");
+
+	speed_modifier.x = conf.child("speed_modifier.x").attribute("value").as_float();
+	speed_modifier.y = conf.child("speed_modifier.y").attribute("value").as_float();
 
 	return true;
 }
@@ -90,19 +98,31 @@ bool j1Player::Start()
 		ret = false;
 	}
 
-	current_animation = &idle;
+	SDL_Rect player_dimensions{ 0,0,99,73 };
 
+	SDL_Rect collider_rect{ 0,0,player_dimensions.w, player_dimensions.h };
 
-	SDL_Rect ground{};
-	SDL_Rect collider_player_rect{};
+	touching.x = 0;
+	touching.y = 0;
 
-	col = App->collision->AddCollider(collider_player_rect, COLLIDER_PLAYER);
+	col = App->collision->AddCollider(collider_rect, COLLIDER_PLAYER);
+
 
 	return ret;
 }
 
 bool j1Player::Update()
 {
+	if (touching.x != 0)
+	{
+		speed.y = speed_modifier.y;
+	}
+	else
+		speed.y = speed_modifier.y * 2;
+
+
+	speed.x = 0;
+
 	if (dead)
 	{
 		current_animation = &death;
