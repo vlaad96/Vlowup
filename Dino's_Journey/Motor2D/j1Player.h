@@ -17,7 +17,7 @@ public:
 
 	bool Awake(pugi::xml_node& conf);
 	bool Start();
-	bool Update();
+	bool Update(float dt);
 
 	//Save and Load
 

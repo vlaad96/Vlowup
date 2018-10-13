@@ -111,7 +111,7 @@ bool j1Player::Start()
 	return ret;
 }
 
-bool j1Player::Update()
+bool j1Player::Update(float dt)
 {
 	if (touching.x != 0)
 	{
@@ -120,7 +120,7 @@ bool j1Player::Update()
 	else
 		speed.y = speed_modifier.y * 2;
 
-
+	current_animation = &idle; //trying to blit something
 	speed.x = 0;
 
 	if (dead)
