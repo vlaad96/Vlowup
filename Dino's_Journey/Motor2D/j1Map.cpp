@@ -31,12 +31,14 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
-
+	//background draw
 	for (int i = 0; i < data.images.count(); ++i)
 	{
 		App->render->Blit(data.images[i]->texture, 0, 0, &data.images[i]->GetImageRect());
 	}
 	
+	//tile draw
+
 	MapLayer* layer;// = this->data.layers.start->data;
 
 	for (int i = 0; i < data.tilesets.count(); ++i)
