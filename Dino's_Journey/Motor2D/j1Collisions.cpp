@@ -230,11 +230,10 @@ void j1Collisions::MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r) {
 				for (int x = 0; x < App->map->data.width; ++x)
 				{
 					int tile_id = layers->data->Get(x, y);
-					if (tile_id == 145) {
-
+					if (tile_id == 145)//tis is not ok 
+					{
 						iPoint pos = App->map->MapToWorld(x, y);
 						App->collision->AddCollider({ pos.x, pos.y, App->map->data.tile_width, App->map->data.tile_height }, COLLIDER_WALL);
-
 					}
 				}
 			}
