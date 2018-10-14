@@ -87,7 +87,6 @@ struct MapData
 	p2List<ImageLayer*>	images;
 	//Custom Properties
 	fPoint player_start_point;
-	fPoint player_end_point;
 	float parallax_speed;
 	int camera_limit_y;
 };
@@ -133,11 +132,12 @@ private:
 public:
 
 	MapData data;
+	pugi::xml_document	map_file;
+	p2SString			folder;
 
 private:
 
-	pugi::xml_document	map_file;
-	p2SString			folder;
+	
 	bool				map_loaded;
 };
 

@@ -14,9 +14,10 @@ enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = -1,
 	COLLIDER_WALL,
-	COLLIDER_DEAD,
+	COLLIDER_DEATH,
 	COLLIDER_PLAYER,
-	COLLIDER_MAX,
+	COLLIDER_WIN,
+	COLLIDER_MAX
 };
 
 struct Collider
@@ -58,17 +59,17 @@ public:
 	j1Collisions();
 	~j1Collisions();
 
-	bool Update(float dt);
+	bool Awake();
+	bool Start();
 	bool PreUpdate();
+	bool Update(float dt);
+	bool PostUpdate();
 	bool CleanUp();
 	
 	bool CheckCollisionAfterSlide(const SDL_Rect& r, int dist) const;
-
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type);
-	
 	void DebugDraw();
-	
-	void MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r);
+	void CollidersFromMap(const char* file_name);
 
 private:
 

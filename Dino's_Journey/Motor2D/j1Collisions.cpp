@@ -7,18 +7,54 @@
 
 j1Collisions::j1Collisions()
 {
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-		colliders[i] = nullptr;
+	matrix[COLLIDER_NONE][COLLIDER_NONE] = false;
+	matrix[COLLIDER_NONE][COLLIDER_WALL] = false;
+	matrix[COLLIDER_NONE][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_NONE][COLLIDER_DEATH] = false;
+	matrix[COLLIDER_NONE][COLLIDER_WIN] = false;
 
+	matrix[COLLIDER_WALL][COLLIDER_NONE] = false;
+	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
+	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_WALL][COLLIDER_DEATH] = false;
+	matrix[COLLIDER_WALL][COLLIDER_WIN] = false;
+
+	matrix[COLLIDER_PLAYER][COLLIDER_NONE] = false;
+	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_PLAYER][COLLIDER_DEAD] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_DEATH] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_WIN] = true;
+
+	matrix[COLLIDER_DEATH][COLLIDER_NONE] = false;
+	matrix[COLLIDER_DEATH][COLLIDER_WALL] = false;
+	matrix[COLLIDER_DEATH][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_DEATH][COLLIDER_DEATH] = false;
+	matrix[COLLIDER_DEATH][COLLIDER_WIN] = false;
+
+	matrix[COLLIDER_WIN][COLLIDER_NONE] = false;
+	matrix[COLLIDER_WIN][COLLIDER_WALL] = false;
+	matrix[COLLIDER_WIN][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_WIN][COLLIDER_DEATH] = false;
+	matrix[COLLIDER_WIN][COLLIDER_WIN] = false;
 }
 
 // Destructor
 j1Collisions::~j1Collisions()
 {}
 
+bool j1Collisions::Awake() 
+{
+	bool ret = true;
+	return ret;
+}
 
+bool j1Collisions::Start() 
+{
+	
+	//CollidersFromMap("Newlevel1.tmx"); //No va 
+	bool ret = true;
+	return ret;
+}
 
 bool j1Collisions::PreUpdate()
 {
@@ -68,6 +104,12 @@ bool j1Collisions::Update(float dt)
 	return true;
 }
 
+bool j1Collisions::PostUpdate()
+{
+	bool ret = true;
+	return ret;
+}
+
 void j1Collisions::DebugDraw()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -77,6 +119,7 @@ void j1Collisions::DebugDraw()
 		return;
 
 	Uint8 alpha = 80;
+
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] == nullptr)
@@ -93,9 +136,11 @@ void j1Collisions::DebugDraw()
 		case COLLIDER_WALL: // blue
 			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha, false);
 			break;
-		case COLLIDER_DEAD: // red
+		case COLLIDER_DEATH: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha, true);
 			break;
+		case COLLIDER_WIN: //green too
+			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha, false);
 		}
 	}
 }
@@ -218,27 +263,39 @@ bool j1Collisions::CheckCollisionAfterSlide(const SDL_Rect& r, int dist) const
 	return false;
 }
 
-//THIS WILL GRAB THE TILES FROM THE MAP FROM LAYER "Colliders" AND TRANSFORM THEM INTO COLLIDERS (incomplete)
-void j1Collisions::MapTilesToColliders(pugi::xml_node &node, const SDL_Rect r) { //At node pass the node layer = map_file.child("map").child("layer") It's at the map
+void j1Collisions::CollidersFromMap(const char* file_name) {
 
-	for (p2List_item<MapLayer*>*layers = App->map->data.layers.start; layers != nullptr; layers = layers->next) 
-	{
-		if (layers->data->name == "Colliders") 
-		{
-			for (int y = 0; y < App->map->data.height; ++y)
+	p2SString tmp("%s%s", App->map->folder.GetString(), file_name);
+
+	pugi::xml_parse_result result = App->map->map_file.load_file(tmp.GetString());
+
+	if (result == NULL) {
+
+		LOG("Could not load xml file %s. pugi error: %s", file_name, result.description());
+		return;
+	}
+	pugi::xml_node collider;
+	pugi::xml_node type;
+	const char* colliderlayername;
+
+	for (type = App->map->map_file.child("map").child("objectgroup"); type && result; type = type.next_sibling("objectgroup")) {
+
+		colliderlayername = type.attribute("name").as_string();
+
+		for (collider = type.child("object"); collider&&result; collider = collider.next_sibling("object")) {
+
+			if (colliderlayername == "Colliders_Wall") 
 			{
-				for (int x = 0; x < App->map->data.width; ++x)
-				{
-					int tile_id = layers->data->Get(x, y);
-					if (tile_id == 145)//tis is not ok 
-					{
-						iPoint pos = App->map->MapToWorld(x, y);
-						App->collision->AddCollider({ pos.x, pos.y, App->map->data.tile_width, App->map->data.tile_height }, COLLIDER_WALL);
-					}
-				}
+				AddCollider({ collider.attribute("x").as_int(),collider.attribute("y").as_int(),collider.attribute("width").as_int(),collider.attribute("height").as_int() }, COLLIDER_TYPE::COLLIDER_WALL);
+			}
+			if (colliderlayername == "Colliders_Death") 
+			{
+				AddCollider({ collider.attribute("x").as_int(),collider.attribute("y").as_int(),collider.attribute("width").as_int(),collider.attribute("height").as_int() }, COLLIDER_TYPE::COLLIDER_DEATH);
+			}
+			if (colliderlayername == "Colliders_Win") 
+			{
+				AddCollider({ collider.attribute("x").as_int(),collider.attribute("y").as_int(),collider.attribute("width").as_int(),collider.attribute("height").as_int() }, COLLIDER_TYPE::COLLIDER_WIN);
 			}
 		}
 	}
-
-	LOG("Error Parsing map, couldn't find colliders layer");
 }

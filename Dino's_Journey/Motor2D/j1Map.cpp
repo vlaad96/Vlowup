@@ -485,16 +485,6 @@ bool j1Map::LoadPropiertiesOfMap(pugi::xml_node& node)
 		{
 			data.player_start_point.y = iterator.attribute("value").as_float();
 		}
-
-		if (name == "Ending_Pos_X")
-		{
-			data.player_end_point.x = iterator.attribute("value").as_float();
-		}
-
-		if (name == "Ending_Pos_Y")
-		{
-			data.player_end_point.y = iterator.attribute("value").as_int();
-		}
 	}
 
 	return true;
