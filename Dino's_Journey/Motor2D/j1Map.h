@@ -87,6 +87,7 @@ struct MapData
 	p2List<ImageLayer*>	images;
 	//Custom Properties
 	fPoint player_start_point;
+	fPoint player_end_point;
 	float parallax_speed;
 	int camera_limit_y;
 };

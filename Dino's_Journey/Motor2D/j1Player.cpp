@@ -160,7 +160,7 @@ bool j1Player::Update(float dt)
 			{
 				App->map->map = 0;
 				App->map->CleanUp();
-				App->map->Load("NewLevel1.tmx");
+				App->map->Load("Newlevel1.tmx");
 			}
 
 
@@ -276,7 +276,7 @@ bool j1Player::Load(pugi::xml_node& data)
 		{
 			App->map->map = 1;
 			App->map->CleanUp();
-			App->map->Load("NewLevel2.tmx");
+			App->map->Load("Newlevel2.tmx");
 			position.x = data.child("player_position").attribute("x").as_float();
 			position.y = data.child("player_position").attribute("y").as_float();
 		}
@@ -284,7 +284,7 @@ bool j1Player::Load(pugi::xml_node& data)
 		{
 			App->map->map = 0;
 			App->map->CleanUp();
-			App->map->Load("NewLevel1.tmx");
+			App->map->Load("Newlevel1.tmx");
 			position.x = data.child("player_position").attribute("x").as_float();
 			position.y = data.child("player_position").attribute("y").as_float();
 		}
