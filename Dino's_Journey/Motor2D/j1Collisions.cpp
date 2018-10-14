@@ -75,8 +75,8 @@ bool j1Collisions::PreUpdate()
 bool j1Collisions::Update(float dt)
 {
 	Collider* c;
-
-	/*for (uint i = 0; i < MAX_COLLIDERS; ++i)
+/*
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		// skip empty and player colliders
 		if (colliders[i] == nullptr || colliders[i]->type == COLLIDER_NONE || colliders[i]->type == COLLIDER_PLAYER)
@@ -84,24 +84,25 @@ bool j1Collisions::Update(float dt)
 
 		if (colliders[i]->type == COLLIDER_WALL)
 		{
-			if (colliders[i]->WillCollideGround(App->player->collider->rect, ceil(App->player->gravity)))
-				App->player->contact.y = 1;
+			if (colliders[i]->WillCollideGround(App->player->col->rect, ceil(App->player->gravity)))
+				App->player->touching.y = 1;
 
-			if (colliders[i]->WillCollideTop(App->player->collider->rect, ceil(App->player->speed.y)))
-				App->player->contact.y = 2;
+			if (colliders[i]->WillCollideTop(App->player->col->rect, ceil(App->player->speed.y)))
+				App->player->touching.y = 2;
 
-			if (colliders[i]->WillCollideLeft(App->player->collider->rect, App->player->speed_modifier.x))
-				App->player->contact.x = 1;
+			if (colliders[i]->WillCollideLeft(App->player->col->rect, App->player->speed_modifier.x))
+				App->player->touching.x = 1;
 
-			if (colliders[i]->WillCollideRight(App->player->collider->rect, App->player->speed_modifier.x))
-				App->player->contact.x = 2;
-		
+			if (colliders[i]->WillCollideRight(App->player->col->rect, App->player->speed_modifier.x))
+				App->player->touching.x = 2;
 
-		DebugDraw();
 
+			DebugDraw();
+
+			return true;
+		}*/
 		return true;
-	}*/
-	return true;
+	//}
 }
 
 bool j1Collisions::PostUpdate()
