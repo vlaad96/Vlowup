@@ -11,8 +11,11 @@
   </renderer>
 
   <player>
-  <speed_modifier.x value = ""/>
-  <speed_modifier.y value = ""/>
+  <speed_modifier.x value = "12"/>
+  <speed_modifier.y value = "10"/>
+  <jump_time value = " 15"/>
+  <slide_time value = " 15"/>
+  <gravity value =" 6"/>
   </player>
   <window>
     <resolution width="1024" height="768" scale="1"/>
