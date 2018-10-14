@@ -36,7 +36,7 @@
   <tile id="27" terrain="1,1,,"/>
  </tileset>
  <imagelayer id="2" name="Capa de Imagen 1">
-  <image source="New Background.png" width="1280" height="819"/>
+  <image source="New Background 1.png" width="2560" height="819"/>
  </imagelayer>
  <layer id="1" name="Capa de Patrones 1" width="50" height="15">
   <data>
