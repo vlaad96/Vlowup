@@ -7,75 +7,52 @@
 
 j1Collisions::j1Collisions()
 {
-	matrix[COLLIDER_NONE][COLLIDER_NONE] = false;
-	matrix[COLLIDER_NONE][COLLIDER_WALL] = false;
-	matrix[COLLIDER_NONE][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_NONE][COLLIDER_DEATH] = false;
-	matrix[COLLIDER_NONE][COLLIDER_WIN] = false;
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+		colliders[i] = nullptr;
 
-	matrix[COLLIDER_WALL][COLLIDER_NONE] = false;
-	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
-	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_WALL][COLLIDER_DEATH] = false;
-	matrix[COLLIDER_WALL][COLLIDER_WIN] = false;
-
-	matrix[COLLIDER_PLAYER][COLLIDER_NONE] = false;
-	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_DEATH] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_WIN] = true;
-
-	matrix[COLLIDER_DEATH][COLLIDER_NONE] = false;
-	matrix[COLLIDER_DEATH][COLLIDER_WALL] = false;
-	matrix[COLLIDER_DEATH][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_DEATH][COLLIDER_DEATH] = false;
-	matrix[COLLIDER_DEATH][COLLIDER_WIN] = false;
-
-	matrix[COLLIDER_WIN][COLLIDER_NONE] = false;
-	matrix[COLLIDER_WIN][COLLIDER_WALL] = false;
-	matrix[COLLIDER_WIN][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_WIN][COLLIDER_DEATH] = false;
-	matrix[COLLIDER_WIN][COLLIDER_WIN] = false;
 }
 
-// Destructor
+	// Destructor
 j1Collisions::~j1Collisions()
 {}
 
-bool j1Collisions::Awake() 
+bool j1Collisions::Awake()
 {
 	bool ret = true;
 	return ret;
 }
 
-bool j1Collisions::Start() 
+bool j1Collisions::Start()
 {
-	
-	//CollidersFromMap("Newlevel1.tmx"); //No va 
-	bool ret = true;
-	return ret;
+
+		CollidersFromMap("Newlevel1.tmx"); //No va 
+		bool ret = true;
+		return ret;
 }
 
 bool j1Collisions::PreUpdate()
 {
-	// Remove all colliders scheduled for deletion
+		// Remove all colliders scheduled for deletion
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
 		{
-			delete colliders[i];
-			colliders[i] = nullptr;
+				delete colliders[i];
+				colliders[i] = nullptr;
 		}
 	}
 
 	return true;
 }
 
+
 // Called before render is available
 bool j1Collisions::Update(float dt)
 {
 	Collider* c;
-/*
+
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		// skip empty and player colliders
@@ -95,15 +72,33 @@ bool j1Collisions::Update(float dt)
 
 			if (colliders[i]->WillCollideRight(App->player->col->rect, App->player->speed_modifier.x))
 				App->player->touching.x = 2;
+		}
+		else if ( colliders[i]->type == COLLIDER_DEATH)
+		{
+			c = colliders[i];
 
+			if (App->player->col->CheckCollision(c->rect) == true)
+			{
 
-			DebugDraw();
+				if (matrix[App->player->col->type][c->type])
+				{
+					if (c->type == COLLIDER_DEATH)
+					{
+						App->player->dead = true;
+					}
+					
+				
+				}
 
-			return true;
-		}*/
-		return true;
-	//}
+			}
+		}
+	}
+
+	DebugDraw();
+
+	return true;
 }
+
 
 bool j1Collisions::PostUpdate()
 {
