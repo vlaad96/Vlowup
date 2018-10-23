@@ -2,90 +2,56 @@
 #define _j1PLAYER_H_
 
 #include "j1Module.h"
-#include"j1Collisions.h"
 #include "Animation.h"
 #include "p2Point.h"
 
-struct SDL_Texture;
-struct Collider;
 
-enum player_state
-{
-	IDLE = 0,
-	LEFT,
-	RIGHT,
-	JUMPING,
-	DEAD
-};
+struct SDL_Texture;
+
 
 class j1Player : public j1Module
 {
+	//Main functions of player module
 public:
 
 	j1Player();
 	~j1Player();
 
-	bool Awake(pugi::xml_node& conf);
+	bool Awake(pugi::xml_node& config);
 	bool Start();
-	bool Update(float dt);
-	bool PostUpdate();
-	bool CleanUp();
+	bool Update();
 
-	//Save and Load
-	bool Save(pugi::xml_node& data)const;
-	bool Load(pugi::xml_node& data);
+	//Save and Load funcions
+	bool Save(pugi::xml_node&);
+	bool Load(pugi::xml_node&)const;
 
-	//Special movements
-	void Jump();
-	void Slide();
-
-	// Loading animation function
-	Animation* LoadAnim(const char* path, const char* name);
-
-	//Collisions
-	void OnCollision(Collider* c1, Collider* c2);
-
+	//Other functions and variables
 public:
 
-	Collider * col;
-	SDL_Texture* graphics = nullptr;
-
-	bool jumping = false;
-	bool sliding = false;
-	bool dead = false;
-	bool won = false;
-	bool godmode = false;
-	bool isColliding = false;
-
-	iPoint touching;
-	fPoint speed;
 	fPoint position;
-	fPoint speed_modifier;
-	float gravity;
-	int jumping_time;
-	int sliding_time;
-	player_state playerstate;
-	int frames;
-	int time;
-	bool allow_time;
 
+	//Texture relateed
+public:
+
+	SDL_Texture * graphics = nullptr;
 	Animation* current_animation = nullptr;
-	Animation* idle_right;
-	Animation* idle_left;
-	Animation* run_right;
-	Animation* run_left;
-	Animation* jump;
-	Animation* death;
-	Animation* slide_left;
-	Animation* slide_right;
-
 	SDL_Texture* sprites = nullptr;
+	
+	Animation* idleR;
+	Animation* idleL;
+	Animation* runR;
+	Animation* runL;
+	Animation* jump;
+	Animation* slideR;
+	Animation* slideL;
+	Animation* dying;
+	
+	Animation* LoadAnimation(const char* path, const char* name);
 
-	SDL_Rect player_collider;
-
+	//Animation path and folder
 private:
 	p2SString file_path;
 	p2SString animation;
-};
 
+};
 #endif //_j1PLAYER_H_
