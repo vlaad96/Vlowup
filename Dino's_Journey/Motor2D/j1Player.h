@@ -29,19 +29,23 @@ public:
 public:
 
 	fPoint position;
+	SDL_Texture* graphics = nullptr;
+	
 
 	//Texture relateed
 public:
 
-	SDL_Texture * graphics = nullptr;
 	Animation* current_animation = nullptr;
 	SDL_Texture* sprites = nullptr;
+
+	SDL_Rect player_collider;
 	
 	Animation* idleR;
 	Animation* idleL;
 	Animation* runR;
 	Animation* runL;
-	Animation* jump;
+	Animation* jumpR;
+	Animation* jumpL;
 	Animation* slideR;
 	Animation* slideL;
 	Animation* dying;
@@ -51,7 +55,7 @@ public:
 	//Animation path and folder
 private:
 	p2SString file_path;
-	p2SString animation;
+	p2SString Textures;
 
 };
 #endif //_j1PLAYER_H_

@@ -10,13 +10,6 @@
     <vsync value="true"/>
   </renderer>
 
-  <player>
-  <speed_modifier.x value = "12"/>
-  <speed_modifier.y value = "10"/>
-  <jump_time value = " 15"/>
-  <slide_time value = " 15"/>
-  <gravity value =" 6"/>
-  </player>
   <window>
     <resolution width="1024" height="768" scale="1"/>
     <fullscreen value="false"/>
@@ -32,5 +25,12 @@
   <map>
     <folder>maps/</folder>
   </map>
+  
+  <player>
+  <file_path>textures/player.tmx</file_path>
+  <textures>textures/SpriteSheet.png</textures>
+  <Collider x="12" y="19" width ="66" height="70"/>
+  </player>
+  
 
 </config>
