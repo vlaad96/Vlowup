@@ -12,10 +12,27 @@ j1Player::j1Player()
 {
 	name.create("player");
 
+	position.x = 64;
+	position.y = 384;
+
+	int w = 170, h = 118;
+
+	idleR.PushBack({ 2 * w,h,w,h });
+	idleR.PushBack({ 3 * w,h,w,h });
+	idleR.PushBack({ 4 * w,h,w,h });
+	idleR.PushBack({ 5 * w,h,w,h });
+	idleR.PushBack({ 0 * w,h*2,w,h });
+	idleR.PushBack({ 1 * w,h*2,w,h });
+	idleR.PushBack({ 2 * w,h*2,w,h });
+	idleR.PushBack({ 3 * w,h*2,w,h });
+	idleR.PushBack({ 4 * w,h*2,w,h });
+	idleR.PushBack({ 5 * w,h*2,w,h });
+
 }
 
 j1Player::~j1Player()
 {
+	App->tex->UnLoad(graphics);
 	App->tex->UnLoad(sprites);
 }
 
@@ -26,7 +43,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	//Animations
-	file_path.create(config.child("file_path").child_value());
+	/*file_path.create(config.child("file_path").child_value());
 	Textures.create(config.child("textures").child_value());
 
 	idleL = LoadAnimation(file_path.GetString(), "idle_left");
@@ -41,11 +58,10 @@ bool j1Player::Awake(pugi::xml_node& config)
 	int x = config.child("Collider").attribute("x").as_int();
 	int y = config.child("Collider").attribute("y").as_int();
 	int width = config.child("Collider").attribute("width").as_int();
-	int height = config.child("Collider").attribute("height").as_int();
+	int height = config.child("Collider").attribute("height").as_int();*/
 
-	player_collider = { x,y,width,height };//SDL_Rect
-
-	current_animation = idleR;
+//	player_collider = { x,y,width,height };//SDL_Rect
+	
 
 	return ret;
 }
@@ -55,44 +71,47 @@ bool j1Player::Start()
 {
 	LOG("Loading player textures");
 	bool ret = true;
+	graphics = App->tex->Load("textures/SpriteSheet.png");
 
 	
-	if (sprites == nullptr)
+	/*if (sprites == nullptr)
 	{
 		sprites = App->tex->Load(Textures.GetString());
-	}
+	}*/
+
+	current_animation = &idleR;
 
 	return ret;
 }
 
 bool j1Player::Update()
 {
-	current_animation = idleR;
+	current_animation = &idleR;
 
 	//Movement
 
 	//Running right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		current_animation = runR;
+		current_animation = &runR;
 		
 	}
 	//Running left
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		current_animation = runL;
+		current_animation = &runL;
 
 	}
 	//Jumping
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
-		current_animation = jumpR;
+		current_animation = &jumpR;
 
 	}
 	//slide
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		current_animation = slideR;
+		current_animation = &slideR;
 
 	}
 

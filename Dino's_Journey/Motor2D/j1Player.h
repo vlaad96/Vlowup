@@ -40,15 +40,15 @@ public:
 
 	SDL_Rect player_collider;
 	
-	Animation* idleR;
-	Animation* idleL;
-	Animation* runR;
-	Animation* runL;
-	Animation* jumpR;
-	Animation* jumpL;
-	Animation* slideR;
-	Animation* slideL;
-	Animation* dying;
+	Animation idleR;
+	Animation idleL;
+	Animation runR;
+	Animation runL;
+	Animation jumpR;
+	Animation jumpL;
+	Animation slideR;
+	Animation slideL;
+	Animation dying;
 	
 	Animation* LoadAnimation(const char* path, const char* name);
 
