@@ -38,5 +38,3 @@ We do not own any of the sprites, tilesets, music or sfx presented in this game.
 ### Comment
 
 Game is not working in this fase, we failed to put the player on the map.
-
-GitHub repository: https://github.com/vlaad96/Vlowup
