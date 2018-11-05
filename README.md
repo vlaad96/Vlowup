@@ -2,6 +2,7 @@
 
 2D Platformer created during Game Development subject by two students.
 
+GitHub repository: https://github.com/vlaad96/Vlowup
 
 ## Team members
 
