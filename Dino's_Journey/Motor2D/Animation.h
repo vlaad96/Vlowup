@@ -2,13 +2,13 @@
 #define __ANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
-#define MAX_FRAMES 15
+#define MAX_FRAMES 150
 
 class Animation
 {
 public:
 	bool loop = true;
-	float speed = 0.4f;
+	float speed = 0.25f;
 	SDL_Rect frames[MAX_FRAMES];
 	int name;
 

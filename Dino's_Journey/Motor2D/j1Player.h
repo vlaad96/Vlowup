@@ -29,7 +29,10 @@ public:
 public:
 
 	fPoint position;
+	fPoint speed;
+	float gravity;
 	SDL_Texture* graphics = nullptr;
+	bool godMode = false;
 	
 
 	//Texture relateed
@@ -39,16 +42,14 @@ public:
 	SDL_Texture* sprites = nullptr;
 
 	SDL_Rect player_collider;
-	
-	Animation* idleR;
-	Animation* idleL;
-	Animation* runR;
-	Animation* runL;
-	Animation* jumpR;
-	Animation* jumpL;
-	Animation* slideR;
-	Animation* slideL;
-	Animation* dying;
+
+	Animation* idleR = nullptr;
+	Animation* idleL = nullptr;
+	Animation* runR = nullptr;
+	Animation* runL = nullptr;
+	Animation* jumpR = nullptr;
+	Animation* jumpL = nullptr;
+	Animation* dying = nullptr;
 	
 	Animation* LoadAnimation(const char* path, const char* name);
 

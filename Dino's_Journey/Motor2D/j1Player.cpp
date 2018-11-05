@@ -8,21 +8,6 @@
 #include "j1Audio.h"
 #include "j1Scene.h"
 
-j1Player::j1Player()
-{
-	name.create("player");
-
-	position.x = 64;
-	position.y = 384;
-
-
-}
-
-j1Player::~j1Player()
-{
-	App->tex->UnLoad(graphics);
-	App->tex->UnLoad(sprites);
-}
 
 bool j1Player::Awake(pugi::xml_node& config)
 {
@@ -46,10 +31,30 @@ bool j1Player::Awake(pugi::xml_node& config)
 	int height = config.child("Collider").attribute("height").as_int();
 
 	player_collider = { x,y,width,height };//SDL_Rect
-	
+
+	gravity = config.child("gravity").attribute("value").as_float();
+
+	position.x = 0;
+	position.y = 0;
+
+	current_animation = idleR;
+	dying->loop = false;
+
 
 	return ret;
 }
+
+j1Player::j1Player()
+{
+	name.create("player");
+
+}
+
+j1Player::~j1Player()
+{
+
+}
+
 
 
 bool j1Player::Start() 
@@ -59,21 +64,19 @@ bool j1Player::Start()
 	graphics = App->tex->Load("textures/SpriteSheet.png");
 
 	
-	/*if (sprites == nullptr)
+	if (sprites == nullptr)
 	{
 		sprites = App->tex->Load(Textures.GetString());
-	}*/
+	}
 
-	current_animation = idleR;
+	
 
 	return ret;
 }
 
 bool j1Player::Update()
 {
-	current_animation = idleR;
-
-	//Movement
+	
 
 	//Running right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -93,12 +96,18 @@ bool j1Player::Update()
 		current_animation = jumpR;
 
 	}
-	//slide
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	
+	//GodMode
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
-		current_animation = slideR;
-
+		if (godMode == false) {
+			godMode = true;
+		}
+		else
+			godMode = false;
 	}
+
+	
 
 	//Draw everything
 
