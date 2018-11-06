@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "Animation.h"
+#include "j1Collisions.h"
 #include "p2Point.h"
 
 
@@ -22,8 +23,8 @@ public:
 	bool Update();
 
 	//Save and Load funcions
-	bool Save(pugi::xml_node&);
-	bool Load(pugi::xml_node&)const;
+	bool Save(pugi::xml_node &config)const;
+	bool Load(pugi::xml_node &config);
 
 	//Other functions and variables
 public:
@@ -31,8 +32,9 @@ public:
 	fPoint position;
 	fPoint speed;
 	float gravity;
-	SDL_Texture* graphics = nullptr;
 	bool godMode = false;
+
+	Collider* colPlayer;
 	
 
 	//Texture relateed

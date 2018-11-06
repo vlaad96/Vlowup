@@ -34,8 +34,10 @@ bool j1Scene::Start()
 	App->map->Load("maps/Newlevel1.tmx");
 	App->map->map = 0;
 
-	App->player->position.x = 64;
-	App->player->position.y = 384;
+	App->player->position.x = 100;
+	App->player->position.y = 100;
+
+	
 	
 	return true;
 }

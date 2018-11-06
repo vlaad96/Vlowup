@@ -5,12 +5,13 @@
 	<textures />
 	<audio />
 	<map />
-	<scene />
 	<player>
-		<player_position x="0" y="0" map="0" />
+		<PlayerPosx value="0" />
+		<PlayerPosy value="0" />
 	</player>
-	<:anonymous />
+	<scene />
+	<Collision />
 	<renderer>
-		<camera x="-895" y="81" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>

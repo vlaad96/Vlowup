@@ -25,22 +25,22 @@ j1Collisions::~j1Collisions()
 
 bool j1Collisions::PreUpdate()
 {
-
+	return true;
 }
 
 bool j1Collisions::Update(float dt)
 {
-
+	return true;
 }
 
 bool j1Collisions::PostUpdate()
 {
-
+	return true;
 }
 
 bool j1Collisions::CleanUp()
 {
-
+	return true;
 }
 
 Collider* j1Collisions::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback)

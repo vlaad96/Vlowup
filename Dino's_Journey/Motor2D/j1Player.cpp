@@ -1,12 +1,13 @@
+#include "j1Player.h"
+#include "p2Log.h"
 #include "j1App.h"
 #include "j1Textures.h"
+#include "j1Collisions.h"
 #include "j1Input.h"
 #include "j1Render.h"
-#include "j1Player.h"
 #include "j1Map.h"
-#include "p2Log.h"
-#include "j1Audio.h"
 #include "j1Scene.h"
+#include "j1Window.h"
 
 
 bool j1Player::Awake(pugi::xml_node& config)
@@ -52,7 +53,7 @@ j1Player::j1Player()
 
 j1Player::~j1Player()
 {
-
+	App->tex->UnLoad(sprites);
 }
 
 
@@ -61,7 +62,8 @@ bool j1Player::Start()
 {
 	LOG("Loading player textures");
 	bool ret = true;
-	graphics = App->tex->Load("textures/SpriteSheet.png");
+	
+	colPlayer = App->collision->AddCollider(player_collider, COLLIDER_PLAYER, this);
 
 	
 	if (sprites == nullptr)
@@ -107,7 +109,10 @@ bool j1Player::Update()
 			godMode = false;
 	}
 
-	
+	//player collider
+	colPlayer->SetPos(position.x, position.y);
+	App->collision->Update(1.0f);
+	colPlayer->SetPos(position.x, position.y);
 
 	//Draw everything
 
@@ -159,4 +164,23 @@ Animation* j1Player::LoadAnimation(const char* path, const char* name)
 	else
 		return nullptr;
 
+}
+
+bool j1Player::Save(pugi::xml_node &config)const
+{
+	config.append_child("PlayerPosx").append_attribute("value") = position.x;
+	config.append_child("PlayerPosy").append_attribute("value") = position.y;
+
+	return true;
+}
+
+bool j1Player::Load(pugi::xml_node &config)
+{
+
+	bool ret = true;
+
+	position.x = config.child("PlayerPosx").attribute("value").as_float();
+	position.y = config.child("PlayerPosy").attribute("value").as_float();
+
+	return ret;
 }
