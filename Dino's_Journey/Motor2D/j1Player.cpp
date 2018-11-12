@@ -9,6 +9,16 @@
 #include "j1Scene.h"
 #include "j1Window.h"
 
+j1Player::j1Player()
+{
+	current_animation = nullptr;
+
+	name.create("player");
+
+}
+
+j1Player::~j1Player() {}
+
 
 bool j1Player::Awake(pugi::xml_node& config)
 {
@@ -31,47 +41,25 @@ bool j1Player::Awake(pugi::xml_node& config)
 	int width = config.child("Collider").attribute("width").as_int();
 	int height = config.child("Collider").attribute("height").as_int();
 
+	gmSpeed = config.child("dynamics").attribute("godMode").as_float();
+
 	player_collider = { x,y,width,height };//SDL_Rect
-
-	gravity = config.child("gravity").attribute("value").as_float();
-
-	position.x = 0;
-	position.y = 0;
-
-	current_animation = idleR;
-	dying->loop = false;
-
 
 	return ret;
 }
-
-j1Player::j1Player()
-{
-	name.create("player");
-
-}
-
-j1Player::~j1Player()
-{
-	App->tex->UnLoad(sprites);
-}
-
 
 
 bool j1Player::Start() 
 {
 	LOG("Loading player textures");
+	sprites = App->tex->Load("/textures/SpriteSheet.png");
+
 	bool ret = true;
 	
 	colPlayer = App->collision->AddCollider(player_collider, COLLIDER_PLAYER, this);
 
-	
-	if (sprites == nullptr)
-	{
-		sprites = App->tex->Load(Textures.GetString());
-	}
-
-	
+	position.x = 0;
+	position.y = 0;
 
 	return ret;
 }
@@ -79,44 +67,49 @@ bool j1Player::Start()
 bool j1Player::Update()
 {
 	
+	if (godMode) {
+		//Running right
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			current_animation = runR;
+			position.x += gmSpeed;
 
-	//Running right
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		current_animation = runR;
-		
-	}
-	//Running left
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		current_animation = runL;
-
-	}
-	//Jumping
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-	{
-		current_animation = jumpR;
-
-	}
-	
-	//GodMode
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-	{
-		if (godMode == false) {
-			godMode = true;
 		}
-		else
-			godMode = false;
+		//Running left
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			current_animation = runL;
+			position.x -= gmSpeed;
+
+		}
+		//Jumping
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			current_animation = jumpR;
+			position.y -= gmSpeed;
+
+		}
+
+		//GodMode
+		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		{
+			if (godMode == false) {
+				godMode = true;
+			}
+			else
+				godMode = false;
+		}
 	}
+
 
 	//player collider
 	colPlayer->SetPos(position.x, position.y);
-	App->collision->Update(1.0f);
-	colPlayer->SetPos(position.x, position.y);
+	
 
 	//Draw everything
+	SDL_Rect dino = current_animation->GetCurrentFrame();
 
-	App->render->Blit(sprites, position.x, position.y, &current_animation->GetCurrentFrame());
+	App->render->Blit(sprites, position.x, position.y, &dino);
 
 
 	return true;

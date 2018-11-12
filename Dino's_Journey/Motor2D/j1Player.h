@@ -33,6 +33,7 @@ public:
 	fPoint speed;
 	float gravity;
 	bool godMode = false;
+	float gmSpeed;
 
 	Collider* colPlayer;
 	
