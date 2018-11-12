@@ -8,6 +8,12 @@
 
 j1Collisions::j1Collisions()
 {
+
+	for (uint i = 0; i < COLLIDER_MAX; ++i)
+	{
+		colliders[i] = nullptr;
+	}
+
 	name.create("Collision");
 
 	matrix[COLLIDER_WALLS][COLLIDER_PLAYER] = false;
@@ -25,6 +31,7 @@ j1Collisions::~j1Collisions()
 
 bool j1Collisions::PreUpdate()
 {
+
 	return true;
 }
 
@@ -40,6 +47,18 @@ bool j1Collisions::PostUpdate()
 
 bool j1Collisions::CleanUp()
 {
+
+	LOG("Freeing all colliders");
+
+	for (uint i = 0; i < COLLIDER_MAX; ++i)
+	{
+		if (colliders[i] != nullptr)
+		{
+			delete colliders[i];
+			colliders[i] = nullptr;
+		}
+	}
+
 	return true;
 }
 

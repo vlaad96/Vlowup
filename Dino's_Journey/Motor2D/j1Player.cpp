@@ -26,6 +26,10 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	bool ret = true;
 
+	//Player position
+	initPosX = config.child("position").attribute("x").as_int();
+	initPosY = config.child("position").attribute("y").as_int();
+
 	//Animations
 	file_path.create(config.child("file_path").child_value());
 	Textures.create(config.child("textures").child_value());
@@ -39,7 +43,15 @@ bool j1Player::Awake(pugi::xml_node& config)
 	int width = config.child("Collider").attribute("width").as_int();
 	int height = config.child("Collider").attribute("height").as_int();
 
+	//Speed and jumps
+	pugi::xml_node speed = config.child("speed");
+
 	gmSpeed = config.child("dynamics").attribute("godMode").as_float();
+	gravity = config.child("gravity").attribute("vlaue").as_float();
+	jumpingTime = config.child("jumping_time").attribute("value").as_int();
+	speedMultiplierX = config.child("speed_multiplier_x").attribute("value").as_float();
+	speedMultiplierY = config.child("speed_multiplier_y").attribute("value").as_float();
+	collisionMargin = config.child("margin").attribute("collisionMargin").as_int();
 
 	player_collider = { x,y,width,height };//SDL_Rect
 
@@ -56,49 +68,58 @@ bool j1Player::Start()
 	
 	colPlayer = App->collision->AddCollider(player_collider, COLLIDER_PLAYER, this);
 
-	position.x = 100;
-	position.y = 525;
+	position.x = initPosX;
+	position.y = initPosY;
 	
-	current_animation = idleR;
+	current_animation = idle;
 
 	return ret;
 }
 
 bool j1Player::Update(float dt)
 {
-	
-	if (godMode) {
+
+	//Player Controls
+
+	//When in god mode
+	if (godMode) 
+	{
+
+		current_animation = godmode;
+
 		//Running right
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			current_animation = runR;
+			
 			position.x += gmSpeed;
 
 		}
 		//Running left
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			current_animation = runL;
+	
 			position.x -= gmSpeed;
 
 		}
 		//Jumping
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 		{
-			current_animation = jumpR;
+		
 			position.y -= gmSpeed;
 
 		}
 
-		//GodMode
-		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-		{
-			if (godMode == false) {
-				godMode = true;
-			}
-			else
-				godMode = false;
-		}
+	
+	}
+	else
+	{
+		// Idle
+		if (App->input->GetKey(SDL_SCANCODE_D) ==KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
+			current_animation = idle;
+
+		if(App->input->GetKey(SDL_SCANCODE_D)==KEY_REPEAT)
+
 	}
 
 

@@ -21,6 +21,9 @@ public:
 	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool Update(float dt);
+	bool CleanUP();
+
+	void OnCollision(Collider* col1, Collider* col2);
 
 	//Save and Load funcions
 	bool Save(pugi::xml_node &config)const;
@@ -30,13 +33,20 @@ public:
 public:
 
 	fPoint position;
-	fPoint speed;
-	float gravity;
-	bool godMode = false;
-	float gmSpeed;
-
-	Collider* colPlayer;
 	
+	bool godMode = false;
+
+	float gmSpeed;
+	float gravity;
+	int initPosX;
+	int initPosY;
+	int jumpingTime;
+	float speedMultiplierX;
+	float speedMultiplierY;
+	
+	int collisionMargin;
+	Collider* colPlayer;
+	SDL_Rect player_collider;
 
 	//Texture relateed
 public:
@@ -44,14 +54,11 @@ public:
 	Animation* current_animation = nullptr;
 	SDL_Texture* sprites = nullptr;
 
-	SDL_Rect player_collider;
+	Animation* idle = nullptr;
+	Animation* run = nullptr;
+	Animation* jump = nullptr;
+	Animation* godmode = nullptr;
 
-	Animation* idleR = nullptr;
-	Animation* idleL = nullptr;
-	Animation* runR = nullptr;
-	Animation* runL = nullptr;
-	Animation* jumpR = nullptr;
-	Animation* jumpL = nullptr;
 	Animation* dying = nullptr;
 	
 	Animation* LoadAnimation(const char* path, const char* name);
