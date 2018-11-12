@@ -31,10 +31,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Textures.create(config.child("textures").child_value());
 
 	idleR = LoadAnimation(file_path.GetString(), "Idle");
-	jumpL = LoadAnimation(file_path.GetString(), "JumpL");
 	jumpR = LoadAnimation(file_path.GetString(), "JumpR");
-	runL = LoadAnimation(file_path.GetString(), "RunR");
-	runR = LoadAnimation(file_path.GetString(), "RunL");
+	runR = LoadAnimation(file_path.GetString(), "RunR");
 	dying = LoadAnimation(file_path.GetString(), "Death");
 	int x = config.child("Collider").attribute("x").as_int();
 	int y = config.child("Collider").attribute("y").as_int();
@@ -52,19 +50,21 @@ bool j1Player::Awake(pugi::xml_node& config)
 bool j1Player::Start() 
 {
 	LOG("Loading player textures");
-	sprites = App->tex->Load("/textures/SpriteSheet.png");
+	sprites = App->tex->Load("textures/SpriteSheet.png");
 
 	bool ret = true;
 	
 	colPlayer = App->collision->AddCollider(player_collider, COLLIDER_PLAYER, this);
 
-	position.x = 0;
-	position.y = 0;
+	position.x = 100;
+	position.y = 525;
+	
+	current_animation = idleR;
 
 	return ret;
 }
 
-bool j1Player::Update()
+bool j1Player::Update(float dt)
 {
 	
 	if (godMode) {
@@ -109,7 +109,7 @@ bool j1Player::Update()
 	//Draw everything
 	SDL_Rect dino = current_animation->GetCurrentFrame();
 
-	App->render->Blit(sprites, position.x, position.y, &dino);
+	App->render->Blit(sprites, (int)position.x, (int)position.y, &dino);
 
 
 	return true;
