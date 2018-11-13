@@ -10,8 +10,10 @@ enum COLLIDER_TYPE {
 	COLLIDER_NONE = -1,
 	COLLIDER_WALLS,
 	COLLIDER_PLAYER,
-	CHECKPOINT,
-	COLLIDER_MAX
+	COLLIDER_SPIKES,
+	COLLIDER_ACID,
+	WIN_COLLIDER,
+	MAX_COLLIDER
 
 };
 
@@ -46,18 +48,18 @@ public:
 
 	bool PreUpdate();
 	bool Update(float dt);
-	bool PostUpdate();
 	bool CleanUp();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	void DebugDraw();
 
 	p2List<Collider*> colliders;
-	int playertouched;
+	
 
 private:
 
-	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
+	Collider * collider[MAX_COLLIDER];
+	bool matrix[MAX_COLLIDER][MAX_COLLIDER];
 	bool debug = false;
 };
 

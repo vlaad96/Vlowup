@@ -27,6 +27,7 @@
   </map>
   
   <player>
+  <position x="100" y="500"/>
   <file_path>textures/player.tmx</file_path>
   <textures>textures/SpriteSheet.png</textures>
   <Collider x="12" y="19" width ="66" height="70"/>

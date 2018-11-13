@@ -21,7 +21,7 @@ public:
 	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool Update(float dt);
-	bool CleanUP();
+	bool CleanUp();
 
 	void OnCollision(Collider* col1, Collider* col2);
 
@@ -35,6 +35,8 @@ public:
 	fPoint position;
 	
 	bool godMode = false;
+	bool isDead = false;
+	bool isLookingRight = false;
 
 	float gmSpeed;
 	float gravity;
@@ -47,6 +49,10 @@ public:
 	int collisionMargin;
 	Collider* colPlayer;
 	SDL_Rect player_collider;
+	bool isTouchingGround = false;
+	bool hasWallInFront = false;
+	bool hasWallBehind = false;
+	bool hasWallAbove = false;
 
 	//Texture relateed
 public:

@@ -34,9 +34,9 @@ bool j1Player::Awake(pugi::xml_node& config)
 	file_path.create(config.child("file_path").child_value());
 	Textures.create(config.child("textures").child_value());
 
-	idleR = LoadAnimation(file_path.GetString(), "Idle");
-	jumpR = LoadAnimation(file_path.GetString(), "JumpR");
-	runR = LoadAnimation(file_path.GetString(), "RunR");
+	idle = LoadAnimation(file_path.GetString(), "Idle");
+	jump = LoadAnimation(file_path.GetString(), "JumpR");
+	run = LoadAnimation(file_path.GetString(), "RunR");
 	dying = LoadAnimation(file_path.GetString(), "Death");
 	int x = config.child("Collider").attribute("x").as_int();
 	int y = config.child("Collider").attribute("y").as_int();
@@ -46,7 +46,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	//Speed and jumps
 	pugi::xml_node speed = config.child("speed");
 
-	gmSpeed = config.child("dynamics").attribute("godMode").as_float();
+	gmSpeed = config.child("dynamics").attribute("godmode").as_float();
 	gravity = config.child("gravity").attribute("vlaue").as_float();
 	jumpingTime = config.child("jumping_time").attribute("value").as_int();
 	speedMultiplierX = config.child("speed_multiplier_x").attribute("value").as_float();
@@ -118,7 +118,41 @@ bool j1Player::Update(float dt)
 			&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
 			current_animation = idle;
 
-		if(App->input->GetKey(SDL_SCANCODE_D)==KEY_REPEAT)
+
+		//Movement of the player
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			if (hasWallBehind == false && isDead == false)
+			{
+				position.x -= speedMultiplierX;
+				isLookingRight = false;
+				current_animation = run;
+			}
+			else if (isDead == true)
+			{
+				isLookingRight = false;
+				current_animation = dying;
+			}
+			else
+				current_animation = idle;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			if (hasWallInFront == false && isDead == false)
+			{
+				position.x += speedMultiplierX;
+				isLookingRight = true;
+				current_animation = run;
+			}
+			else if (isDead == true)
+			{
+				isLookingRight = true;
+				current_animation = dying;
+			}
+			else
+				current_animation = idle;
+		}
 
 	}
 
@@ -182,8 +216,11 @@ Animation* j1Player::LoadAnimation(const char* path, const char* name)
 
 bool j1Player::Save(pugi::xml_node &config)const
 {
+
 	config.append_child("PlayerPosx").append_attribute("value") = position.x;
 	config.append_child("PlayerPosy").append_attribute("value") = position.y;
+
+	config.append_child("godmode").append_attribute("value") = godMode;
 
 	return true;
 }
@@ -191,10 +228,47 @@ bool j1Player::Save(pugi::xml_node &config)const
 bool j1Player::Load(pugi::xml_node &config)
 {
 
-	bool ret = true;
+	godMode = config.child("godmode").attribute("value").as_bool();
 
 	position.x = config.child("PlayerPosx").attribute("value").as_float();
 	position.y = config.child("PlayerPosy").attribute("value").as_float();
 
-	return ret;
+	return true;
+}
+
+bool j1Player::CleanUp()
+{
+	LOG("UNLOADING PLAYER");
+	App->tex->UnLoad(sprites);
+
+	return true;
+}
+
+void j1Player::OnCollision(Collider* col1, Collider* col2)
+{
+
+	if (col1->type == COLLIDER_PLAYER || col1->type == COLLIDER_NONE)
+	{
+
+		if (colPlayer->rect.y + colPlayer->rect.h >= col2->rect.y + collisionMargin
+			&& colPlayer->rect.y <= col2->rect.y + col2->rect.h)
+		{
+			if (colPlayer->rect.x + colPlayer->rect.w >= col2->rect.w
+				&& colPlayer->rect.x + colPlayer->rect.w >= col2->rect.x + col2->rect.w)
+			{
+				hasWallBehind = true;
+
+			}
+		}
+		else
+		{
+			if (colPlayer->rect.x <= col2->rect.x + col2->rect.w
+				&& colPlayer->rect.x + colPlayer->rect.w >= col2->rect.x + col2->rect.w)
+			{
+				hasWallBehind = true;
+			}
+		}
+		
+
+	}
 }
