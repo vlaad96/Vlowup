@@ -25,6 +25,11 @@
   <map>
     <folder>maps/</folder>
   </map>
+
+  <scene>
+    <level1_name name="Newlevel1.tmx"/>
+    <level2_name name="Newlevel2.tmx"/>
+  </scene>
   
   <player>
   <position x="100" y="500"/>

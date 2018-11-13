@@ -34,7 +34,10 @@ void j1Map::Draw()
 	//background draw
 	for (int i = 0; i < data.images.count(); ++i)
 	{
-		App->render->Blit(data.images[i]->texture, 0, 0, &data.images[i]->GetImageRect());
+		App->render->Blit(data.images[i]->texture, 
+			(data.background_offset.x - App->player->displacemetX) * data.parallax_speed,
+			data.background_offset.y,
+			&data.images[i]->GetImageRect());
 	}
 	
 	//tile draw
@@ -429,7 +432,6 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* maplayer)
 	maplayer->name = node.attribute("name").as_string();
 	maplayer->width = node.attribute("width").as_int();
 	maplayer->height = node.attribute("height").as_int();
-	LoadPropertiesOfLayers(node, maplayer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
 	if(layer_data == NULL)
@@ -461,7 +463,8 @@ bool j1Map::LoadImageBackground(pugi::xml_node& node, ImageLayer* imagelayer)
 	imagelayer->width = node.child("image").attribute("width").as_int();
 	imagelayer->height = node.child("image").attribute("height").as_int();
 	imagelayer->texture = App->tex->Load(PATH(folder.GetString(), node.child("image").attribute("source").as_string()));
-
+	data.background_offset.x = node.attribute("offsetx").as_float();
+	data.background_offset.y = node.attribute("offsety").as_float();
 	return ret;
 }
 
@@ -488,16 +491,4 @@ bool j1Map::LoadPropiertiesOfMap(pugi::xml_node& node)
 	}
 
 	return true;
-}
-
-
-// Load a group of properties from a node and fill a list with it
-bool j1Map::LoadPropertiesOfLayers(pugi::xml_node& node, Properties& properties)
-{
-	bool ret = false;
-
-	// TODO 6: Fill in the method to fill the custom properties from 
-	// an xml_node
-
-	return ret;
 }

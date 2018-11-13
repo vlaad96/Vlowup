@@ -45,6 +45,7 @@ public:
 	int jumpingTime;
 	float speedMultiplierX;
 	float speedMultiplierY;
+	float displacemetX;
 	
 	int collisionMargin;
 	Collider* colPlayer;

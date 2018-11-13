@@ -160,6 +160,8 @@ bool j1Player::Update(float dt)
 	//player collider
 	colPlayer->SetPos(position.x, position.y);
 	
+	//Distance from start for parallax
+	displacemetX = App->map->data.player_start_point.x - position.x;
 
 	//Draw everything
 	SDL_Rect dino = current_animation->GetCurrentFrame();

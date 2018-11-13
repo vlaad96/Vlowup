@@ -56,9 +56,10 @@ struct TileSet
 	int					offset_y;
 };
 
-struct ImageLayer
+struct ImageLayer //Parallax info
 {
 	SDL_Rect GetImageRect()const;
+	
 	p2SString			name;
 	int					width;
 	int					height;
@@ -90,6 +91,7 @@ struct MapData
 	fPoint player_end_point;
 	float parallax_speed;
 	int camera_limit_y;
+	fPoint background_offset;
 };
 
 // ----------------------------------------------------
@@ -119,6 +121,8 @@ public:
 
 	int map = 0;//Initializing map
 
+	TileSet* GetTilesetFromTileId(int id) const;
+
 private:
 
 	bool LoadMap();
@@ -126,15 +130,16 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadImageBackground(pugi::xml_node& node, ImageLayer* imagelayer);
-	bool LoadPropertiesOfLayers(pugi::xml_node& node, Properties& properties);
 	bool LoadPropiertiesOfMap(pugi::xml_node& node);
-	TileSet* GetTilesetFromTileId(int id) const;
+	
 
 public:
 
 	MapData data;
 	pugi::xml_document	map_file;
 	p2SString			folder;
+
+	int offset = 0;
 
 private:
 
