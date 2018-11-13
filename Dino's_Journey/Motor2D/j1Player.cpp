@@ -45,12 +45,13 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	//Speed and jumps
 	pugi::xml_node speed = config.child("speed");
-
+	
+	//VALUES IN CONFIG ARE PLACEHOLDERS PLS
 	gmSpeed = config.child("dynamics").attribute("godmode").as_float();
-	gravity = config.child("gravity").attribute("vlaue").as_float();
+	gravity = config.child("gravity").attribute("value").as_float();
 	jumpingTime = config.child("jumping_time").attribute("value").as_int();
-	speedMultiplierX = config.child("speed_multiplier_x").attribute("value").as_float();
-	speedMultiplierY = config.child("speed_multiplier_y").attribute("value").as_float();
+	speedMultiplierX = config.child("speed_multiplier").attribute("valueX").as_float();
+	speedMultiplierY = config.child("speed_multiplier").attribute("valueY").as_float();
 	collisionMargin = config.child("margin").attribute("collisionMargin").as_int();
 
 	player_collider = { x,y,width,height };//SDL_Rect
