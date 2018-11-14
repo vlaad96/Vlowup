@@ -15,6 +15,7 @@ class j1Scene;
 class j1Map;
 class j1Collisions;
 class j1Player;
+class j1PathFinding;
 
 class j1App
 {
@@ -77,15 +78,16 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
-	j1Map*				map;
-	j1Collisions*		collision;
-	j1Player*			player;
+	j1Window*			win = NULL;
+	j1Input*			input = NULL;
+	j1Render*			render = NULL;
+	j1Textures*			tex = NULL;
+	j1Audio*			audio = NULL;
+	j1Scene*			scene = NULL;
+	j1Map*				map = NULL;
+	j1Collisions*		collision = NULL;
+	j1Player*			player = NULL;
+	j1PathFinding*		pathfinding = NULL;
 
 private:
 
