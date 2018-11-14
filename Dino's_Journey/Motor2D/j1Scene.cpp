@@ -7,8 +7,9 @@
 #include "j1Render.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1PathFinding.h"
 #include "j1Scene.h"
-#include"j1Player.h"
+#include "j1Player.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -33,9 +34,17 @@ bool j1Scene::Start()
 {
 	App->map->Load("maps/Newlevel1.tmx");
 	App->map->map = 0;
+	/*if (App->map->Load("maps/Newlevel1.tmx") == true)
+	{
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
 
-	
-	
+		RELEASE_ARRAY(data);
+	}
+	*/
+	//CHEEEECK
 	
 	return true;
 }

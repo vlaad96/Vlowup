@@ -19,8 +19,7 @@
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
-	frames = 0;
-	want_to_save = want_to_load = false;
+	PERF_START(ptimer);
 
 	input = new j1Input();
 	win = new j1Window();
@@ -47,6 +46,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	PERF_PEEK(ptimer);
 }
 
 // Destructor
@@ -73,6 +74,8 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	PERF_START(ptimer);
+
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
@@ -88,6 +91,8 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
+
+		framerate_cap = app_config.attribute("framerate_cap").as_uint();//CHEEEECK
 	}
 
 	if(ret == true)
@@ -108,6 +113,7 @@ bool j1App::Awake()
 // Called before the first frame
 bool j1App::Start()
 {
+	PERF_START(ptimer);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -117,6 +123,9 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
+	startup_time.Start();
+
+	PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -160,6 +169,12 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	frame_count++;
+	last_sec_frame_count++;
+
+	frame_time.Start();
+
+	dt = frame_time.Read();//CHEEEECK 
 }
 
 // ---------------------------------------------
@@ -170,6 +185,33 @@ void j1App::FinishUpdate()
 
 	if(want_to_load == true)
 		LoadGameNow("save_game.xml");
+
+	// Framerate calculations --
+
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	float avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
+	uint32 last_frame_ms = frame_time.Read();
+	uint32 frames_on_last_update = prev_last_sec_frame_count;
+
+	static char title[256];
+	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	App->win->SetTitle(title);
+
+	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
+	//if (last_frame_ms < 1000 / framerate_cap)//CHEEEECK
+	//{
+	//	SDL_Delay(1000 / framerate_cap - last_frame_ms);
+	//}
+	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
+	//LOG("We waited for %d milliseconds and got back in %d", last_frame_ms, 1000 / framerate_cap - last_frame_ms);//CHEEEECK
 }
 
 // Call modules before each loop iteration
@@ -209,7 +251,10 @@ bool j1App::DoUpdate()
 		if(pModule->active == false) {
 			continue;
 		}
-
+		
+		// TODO 5: send dt as an argument to all updates
+		// you will need to update module parent class
+		// and all modules that use update
 		ret = item->data->Update(dt);
 	}
 
@@ -240,6 +285,8 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	PERF_START(ptimer);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;
@@ -249,6 +296,8 @@ bool j1App::CleanUp()
 		ret = item->data->CleanUp();
 		item = item->prev;
 	}
+
+	PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -283,19 +332,30 @@ const char* j1App::GetOrganization() const
 // Load / Save
 void j1App::LoadGame(const char* file)
 {
+	// we should be checking if that file actually exist
+	// from the "GetSaveGames" list
 	want_to_load = true;
+	//load_game.create("%s%s", fs->GetSaveDirectory(), file);//CHEEEECK
 }
 
 // ---------------------------------------
 void j1App::SaveGame(const char* file) const
 {
-	
+	// we should be checking if that file actually exist
+	// from the "GetSaveGames" list ... should we overwrite ?
 
 	want_to_save = true;
+	//save_game.create(file);
+	//CHEEEECK
 
 }
 
 // ---------------------------------------
+//void j1App::GetSaveGames(p2List<p2SString>& list_to_fill) const
+//{
+//	// need to add functionality to file_system module for this to work
+//}
+//CHEEEECK
 
 bool j1App::LoadGameNow(const char* file_name)
 {
@@ -340,7 +400,7 @@ bool j1App::SavegameNow(const char* file_name) const
 
 	LOG("Saving Game State to %s...", file_name);
 
-
+	// xml object were we will store all data
 	pugi::xml_document data;
 	pugi::xml_node root;
 	
@@ -360,6 +420,9 @@ bool j1App::SavegameNow(const char* file_name) const
 		data.save_file(file_name);
 		data.save(stream);
 
+		// we are done, so write data to disk
+		//fs->Save(save_game.GetString(), stream.str().c_str(), stream.str().length());
+		//CHEEEECK
 		LOG("... finished saving", file_name);
 	}
 	else

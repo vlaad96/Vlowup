@@ -138,7 +138,7 @@ SDL_Rect ImageLayer::GetImageRect() const
 	rect.w = width;
 	rect.h = height;
 
-	rect.x = 0;		//IS THIS HARDCODING??
+	rect.x = 0;		
 	rect.y = 0;
 
 	return rect;
