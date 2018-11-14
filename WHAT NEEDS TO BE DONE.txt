@@ -1,0 +1,18 @@
+Finish player
+
+Do the camera
+
+Do Colliders
+
+Do the frame rate shit and dt shit 
+
+Do Pathfinding shit
+
+Do entities system and add enemies
+
+Do better levels
+
+Probably forgetting shit
+
+
+
