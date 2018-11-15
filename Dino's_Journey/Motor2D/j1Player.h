@@ -29,6 +29,9 @@ public:
 	bool Save(pugi::xml_node &config)const;
 	bool Load(pugi::xml_node &config);
 
+	//Movement functions
+	void Jump(float dt);
+
 	//Other functions and variables
 public:
 
@@ -38,6 +41,11 @@ public:
 	bool godMode = false;
 	bool isDead = false;
 	bool isLookingRight = false;
+
+	bool isJumping = false;
+	bool isFalling = false;
+	int jumpPosition;
+
 
 	float gmSpeed;
 	float gravity;
@@ -75,6 +83,9 @@ public:
 private:
 	p2SString file_path;
 	p2SString Textures;
+
+	uint jumpForce;
+	uint jumpHeight;
 
 };
 #endif //_j1PLAYER_H_

@@ -53,6 +53,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	speedMultiplierX = config.child("speed_multiplier").attribute("valueX").as_float();
 	speedMultiplierY = config.child("speed_multiplier").attribute("valueY").as_float();
 	collisionMargin = config.child("margin").attribute("collisionMargin").as_int();
+	jumpForce = config.child("jump_force").attribute("value").as_uint();
+	jumpHeight = config.child("jump_height").attribute("value").as_uint();
 
 	player_collider = { x,y,width,height };//SDL_Rect
 
@@ -153,6 +155,15 @@ bool j1Player::Update(float dt)
 			}
 			else
 				current_animation = idle;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && isDead == false)
+		{
+			if (isJumping == false)
+			{
+				jumpPosition = initPosX - jumpHeight;
+				isJumping = true;
+			}
 		}
 
 	}
@@ -273,5 +284,27 @@ void j1Player::OnCollision(Collider* col1, Collider* col2)
 		}
 		
 
+	}
+
+}
+
+void j1Player::Jump(float dt)
+{
+	if (!isJumping) 
+	{
+		initPosY += gravity * dt;
+	}
+
+	if (isJumping == true && initPosY != jumpPosition)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+			initPosY -= jumpForce * dt;
+	}
+
+	if (initPosY <= jumpPosition || App->input->GetKey(SDL_SCANCODE_SPACE == KEY_UP))
+	{
+		gravity += 10;
+		isJumping = false;
+		isFalling = true;
 	}
 }

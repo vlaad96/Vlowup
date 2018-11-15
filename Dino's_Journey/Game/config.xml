@@ -32,15 +32,17 @@
   </scene>
   
   <player>
-    <position x="100" y="500"/>
+    <position x="100" y="523"/>
     <file_path>textures/player.tmx</file_path>
     <textures>textures/SpriteSheet.png</textures>
-    <Collider x="12" y="50" width ="55" height="46"/>
+    <Collider x="12" y="100" width ="46" height="49"/>
     <dynamics godmode="6.0f"/>
-    <gravity value="1.0f"/>
-    <jumping_time value="10"/>
+    <gravity value="6.0f"/>
+    <jumping_time value="15"/>
+	<jump_force value = "10" />
+	<jump_height value = "10" />
     <speed_multiplier valueX="4.6f" valueY="4.6f"/>
-    <margin collisionmargin="3"/>
+    <margin collisionmargin="0"/>
     
   </player>
   
