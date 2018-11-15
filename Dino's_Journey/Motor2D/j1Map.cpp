@@ -31,11 +31,14 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
+
+	Player* player = (Player*)App->entities->player;
+
 	//background draw
 	for (int i = 0; i < data.images.count(); ++i)
 	{
 		App->render->Blit(data.images[i]->texture, 
-			(data.background_offset.x - App->entities->player->displacemetX) * data.parallax_speed,
+			(data.background_offset.x - player->displacemetX) * data.parallax_speed,
 			data.background_offset.y,
 			&data.images[i]->GetImageRect());
 	}

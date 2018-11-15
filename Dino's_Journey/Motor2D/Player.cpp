@@ -9,11 +9,13 @@
 #include "j1Scene.h"
 #include "j1Window.h"
 
-Player::Player(ENTITY_TYPES type) : Entity(type)
+Player::Player(int x, int y, ENTITY_TYPES type) : Entity(x, y, type)
 {
 	current_animation = nullptr;
 
 	name.create("player");
+
+	type = ENTITY_TYPES::PLAYER;
 
 }
 
@@ -81,7 +83,7 @@ bool Player::Start()
 
 bool Player::Update(float dt)
 {
-
+	
 	//Player Controls
 
 	//When in god mode
@@ -123,6 +125,7 @@ bool Player::Update(float dt)
 
 
 		//Movement of the player
+
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			if (hasWallBehind == false && isDead == false)
@@ -233,7 +236,7 @@ bool Player::Save(pugi::xml_node &config)const
 
 	config.append_child("PlayerPosx").append_attribute("value") = position.x;
 	config.append_child("PlayerPosy").append_attribute("value") = position.y;
-
+	config.append_child("level").append_attribute("value") = App->map->level;
 	config.append_child("godmode").append_attribute("value") = godMode;
 
 	return true;
@@ -246,6 +249,7 @@ bool Player::Load(pugi::xml_node &config)
 
 	position.x = config.child("PlayerPosx").attribute("value").as_float();
 	position.y = config.child("PlayerPosy").attribute("value").as_float();
+	App->map->level = config.child("level").attribute("value").as_int();
 
 	return true;
 }

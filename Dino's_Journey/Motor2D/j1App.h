@@ -95,10 +95,6 @@ public:
 	j1Entities*			entities = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
 
-
-	p2SString			load_game;
-	p2SString			save_game;
-
 	
 
 private:

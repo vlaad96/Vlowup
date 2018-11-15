@@ -1,24 +1,40 @@
-#ifndef __ENTITY_H__
-#define __ENTITY_H__
+#ifndef __ENEMY_H__
+#define __ENEMY_H__
 
-#include "j1Entities.h"
+
 #include "p2Point.h"
 #include "p2DynArray.h"
 #include "Animation.h"
-#include "p2Log.h"
-#include "SDL/include/SDL_timer.h"
-#include "SDL_mixer\include\SDL_mixer.h"
 
 
 struct SDL_Texture;
 struct Collider;
 
+enum ENTITY_TYPES;
+
 class Entity : public j1Entities
 {
+
 public:
 
-	Entity(ENTITY_TYPES type);
+	fPoint position;
+	fPoint speedMultiplier;
+	fPoint speed;
+	Collider* col = nullptr;
+
+	Animation* currentAnimation = nullptr;
+	bool flip = false;//Used to flipping animations during blit
+
+public:
+
+	Entity(int x, int y, ENTITY_TYPES type);
 	virtual ~Entity();
+
+	const Collider* GetCollider()const;
+
+	void DebugDraw(SDL_Texture* spritesheet);
+
+
 
 public:
 
@@ -26,5 +42,5 @@ public:
 };
 
 
-#endif // !__ENTITY_H__
+#endif // !__ENEMY_H__
 

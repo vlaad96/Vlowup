@@ -2,6 +2,8 @@
 #define __J1ENTITIES_H__
 
 #include "j1Module.h"
+#include "j1Collisions.h"
+#include "p2List.h"
 
 #define MAX_ENTITIES 100
 
@@ -29,7 +31,7 @@ public:
 	j1Entities();
 	~j1Entities();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
@@ -37,6 +39,9 @@ public:
 	bool CleanUp();
 	bool Save(pugi::xml_node& config)const;
 	bool Load(pugi::xml_node& config);
+
+	void OnCollision(Collider* col1, Collider* col2);
+	Entity* AddEntity(ENTITY_TYPES type, int x, int y);
 
 public:
 

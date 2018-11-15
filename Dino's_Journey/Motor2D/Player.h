@@ -3,9 +3,13 @@
 
 #include "j1Entities.h"
 #include "Entity.h"
-
-
-struct SDL_Texture;
+#include "Animation.h"
+#include "j1Collisions.h"
+#include "p2Point.h"
+#include "j1App.h"
+#include "j1Input.h"
+#include "j1Map.h"
+#include "j1Scene.h"
 
 
 class Player : public Entity
@@ -13,7 +17,7 @@ class Player : public Entity
 	//Main functions of player module
 public:
 
-	Player(ENTITY_TYPES type);
+	Player(int x, int y, ENTITY_TYPES type);
 	~Player();
 
 	bool Awake(pugi::xml_node& config);
