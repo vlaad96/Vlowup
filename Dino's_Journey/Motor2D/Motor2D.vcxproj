@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\Entity.cpp" />
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Collisions.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -98,6 +99,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Animation.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Entity.h" />
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.h" />
     <ClInclude Include="J1PerfTimer.h" />
     <ClInclude Include="j1Timer.h" />

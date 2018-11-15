@@ -16,9 +16,6 @@
     <ClCompile Include="j1Main.cpp">
       <Filter>Desenvolupament  ========</Filter>
     </ClCompile>
-    <ClCompile Include="j1Render.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="j1Textures.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
@@ -37,23 +34,29 @@
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Collisions.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1Pathfinding.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="j1Timer.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
     <ClCompile Include="j1PerfTimer.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\Entity.cpp">
-      <Filter>Desenvolupament  ========\Modules\Entity</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Desenvolupament  ========\Modules\Entity</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Render.cpp">
+      <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Pathfinding.cpp">
+      <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,23 +117,26 @@
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Collisions.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1Pathfinding.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="j1Timer.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
     <ClInclude Include="J1PerfTimer.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Entity.h">
-      <Filter>Desenvolupament  ========\Modules\Entity</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Desenvolupament  ========\Modules\Entity</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.h">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Pathfinding.h">
+      <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,8 +158,17 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Modules\Entity">
+    <Filter Include="Desenvolupament  ========\Modules\Entities">
+      <UniqueIdentifier>{f64b3c93-36a9-452d-a7ad-c2bddd431f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Entity">
       <UniqueIdentifier>{881647e4-c54f-473a-9e5a-efb14c600f7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Entity\Player">
+      <UniqueIdentifier>{74030e5a-a996-4fe3-966f-d08b5cc718d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Entity\Enemies">
+      <UniqueIdentifier>{5f99de37-ab83-4342-9f14-c1407afa547c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

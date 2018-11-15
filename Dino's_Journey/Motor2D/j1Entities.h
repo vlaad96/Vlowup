@@ -14,7 +14,8 @@ struct SDL_Texture;
 enum ENTITY_TYPES
 {
 	NO_TYPE,
-	PLAYER
+	PLAYER,
+	FLYING_ENEMY
 
 };
 
