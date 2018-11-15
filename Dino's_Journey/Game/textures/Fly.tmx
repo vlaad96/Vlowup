@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="64" height="144" tilewidth="1" tileheight="1" infinite="0" nextobjectid="9">
+ <imagelayer name="Sprites">
+  <image source="Fly.png" width="64" height="172"/>
+ </imagelayer>
+ <objectgroup name="Idle">
+  <object id="1" x="0" y="0" width="64" height="43"/>
+  <object id="2" x="0" y="43" width="64" height="43"/>
+  <object id="3" x="0" y="86" width="64" height="43"/>
+ </objectgroup>
+ <objectgroup name="Dead">
+  <object id="5" x="0" y="129" width="64" height="43"/>
+ </objectgroup>
+ <objectgroup name="Collider">
+  <object id="7" x="0" y="86" width="64" height="43"/>
+ </objectgroup>
+</map>
