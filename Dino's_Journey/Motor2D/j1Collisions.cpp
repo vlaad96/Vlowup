@@ -2,10 +2,12 @@
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Render.h"
-#include "j1Player.h"
 #include "p2Log.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Entities.h"
+
+#include "Player.h"
 
 j1Collisions::j1Collisions()
 {
@@ -92,17 +94,17 @@ bool j1Collisions::Update(float dt)
 
 		if (colliders[i]->type == COLLIDER_WALLS)
 		{
-			if (colliders[i]->CheckBotCollider(App->player->colPlayer->rect, ceil(App->player->gravity))) //ceil rounds the number up, to the biggest possible. For example of 5.6, the ceil would be 6
-				App->player->isTouchingGround = true;
+			if (colliders[i]->CheckBotCollider(App->entities->player->colPlayer->rect, ceil(App->entities->player->gravity))) //ceil rounds the number up, to the biggest possible. For example of 5.6, the ceil would be 6
+				App->entities->player->isTouchingGround = true;
 
-			if (colliders[i]->CheckTopCollider(App->player->colPlayer->rect, ceil(App->player->speed.y)))
-				App->player->hasWallAbove = true;
+			if (colliders[i]->CheckTopCollider(App->entities->player->colPlayer->rect, ceil(App->entities->player->speed.y)))
+				App->entities->player->hasWallAbove = true;
 
-			if (colliders[i]->CheckLeftCollider(App->player->colPlayer->rect, ceil(App->player->speedMultiplierX)))
-				App->player->hasWallBehind = true;
+			if (colliders[i]->CheckLeftCollider(App->entities->player->colPlayer->rect, ceil(App->entities->player->speedMultiplierX)))
+				App->entities->player->hasWallBehind = true;
 
-			if (colliders[i]->CheckRightCollider(App->player->colPlayer->rect, ceil(App->player->speedMultiplierX)))
-				App->player->hasWallInFront = true;
+			if (colliders[i]->CheckRightCollider(App->entities->player->colPlayer->rect, ceil(App->entities->player->speedMultiplierX)))
+				App->entities->player->hasWallInFront = true;
 
 		}
 
@@ -110,13 +112,13 @@ bool j1Collisions::Update(float dt)
 		{
 			col = colliders[i];
 
-			if (App->player->colPlayer->CheckCollision(col->rect) == true)
+			if (App->entities->player->colPlayer->CheckCollision(col->rect) == true)
 			{
 
-				if (matrix[App->player->colPlayer->type][col->type])
+				if (matrix[App->entities->player->colPlayer->type][col->type])
 				{
 					if (col->type == COLLIDER_ACID || col->type == COLLIDER_SPIKES)
-						App->player->isDead = true;
+						App->entities->player->isDead = true;
 					else if (col->type == COLLIDER_FLAG)
 					{
 						if (App->map->level == 0)

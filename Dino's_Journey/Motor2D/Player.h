@@ -1,22 +1,20 @@
 #ifndef _j1PLAYER_H_
 #define _j1PLAYER_H_
 
-#include "j1Module.h"
-#include "Animation.h"
-#include "j1Collisions.h"
-#include "p2Point.h"
+#include "j1Entities.h"
+#include "Entity.h"
 
 
 struct SDL_Texture;
 
 
-class j1Player : public j1Module
+class Player : public Entity
 {
 	//Main functions of player module
 public:
 
-	j1Player();
-	~j1Player();
+	Player(ENTITY_TYPES type);
+	~Player();
 
 	bool Awake(pugi::xml_node& config);
 	bool Start();

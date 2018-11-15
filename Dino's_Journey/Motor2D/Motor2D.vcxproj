@@ -76,8 +76,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\Entity.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Collisions.cpp" />
-    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Player.cpp" />
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="j1PerfTimer.cpp" />
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="j1Pathfinding.cpp" />
@@ -95,11 +97,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Animation.h" />
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Entity.h" />
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.h" />
     <ClInclude Include="J1PerfTimer.h" />
     <ClInclude Include="j1Timer.h" />
     <ClInclude Include="j1Pathfinding.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Collisions.h" />
-    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Player.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="p2DynArray.h" />

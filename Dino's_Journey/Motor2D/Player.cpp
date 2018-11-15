@@ -1,4 +1,4 @@
-#include "j1Player.h"
+#include "Player.h"
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Textures.h"
@@ -9,7 +9,7 @@
 #include "j1Scene.h"
 #include "j1Window.h"
 
-j1Player::j1Player()
+Player::Player(ENTITY_TYPES type) : Entity(type)
 {
 	current_animation = nullptr;
 
@@ -17,10 +17,10 @@ j1Player::j1Player()
 
 }
 
-j1Player::~j1Player() {}
+Player::~Player() {}
 
 
-bool j1Player::Awake(pugi::xml_node& config)
+bool Player::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Player Parser");
 
@@ -62,7 +62,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 }
 
 
-bool j1Player::Start() 
+bool Player::Start()
 {
 	LOG("Loading player textures");
 	sprites = App->tex->Load("textures/SpriteSheet.png");
@@ -79,7 +79,7 @@ bool j1Player::Start()
 	return ret;
 }
 
-bool j1Player::Update(float dt)
+bool Player::Update(float dt)
 {
 
 	//Player Controls
@@ -184,7 +184,7 @@ bool j1Player::Update(float dt)
 	return true;
 }
 
-Animation* j1Player::LoadAnimation(const char* path, const char* name)
+Animation* Player::LoadAnimation(const char* path, const char* name)
 {
 	Animation* anim = new Animation();
 
@@ -228,7 +228,7 @@ Animation* j1Player::LoadAnimation(const char* path, const char* name)
 
 }
 
-bool j1Player::Save(pugi::xml_node &config)const
+bool Player::Save(pugi::xml_node &config)const
 {
 
 	config.append_child("PlayerPosx").append_attribute("value") = position.x;
@@ -239,7 +239,7 @@ bool j1Player::Save(pugi::xml_node &config)const
 	return true;
 }
 
-bool j1Player::Load(pugi::xml_node &config)
+bool Player::Load(pugi::xml_node &config)
 {
 
 	godMode = config.child("godmode").attribute("value").as_bool();
@@ -250,7 +250,7 @@ bool j1Player::Load(pugi::xml_node &config)
 	return true;
 }
 
-bool j1Player::CleanUp()
+bool Player::CleanUp()
 {
 	LOG("UNLOADING PLAYER");
 	App->tex->UnLoad(sprites);
@@ -258,7 +258,7 @@ bool j1Player::CleanUp()
 	return true;
 }
 
-void j1Player::OnCollision(Collider* col1, Collider* col2)
+void Player::OnCollision(Collider* col1, Collider* col2)
 {
 
 	if (col1->type == COLLIDER_PLAYER || col1->type == COLLIDER_NONE)
@@ -288,7 +288,7 @@ void j1Player::OnCollision(Collider* col1, Collider* col2)
 
 }
 
-void j1Player::Jump(float dt)
+void Player::Jump(float dt)
 {
 	if (!isJumping) 
 	{
