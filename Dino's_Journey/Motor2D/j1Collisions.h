@@ -5,6 +5,8 @@
 #include"SDL/include/SDL_rect.h"
 #include"p2List.h"
 
+#define MAX_COLLIDERS 1000
+
 enum COLLIDER_TYPE {
 
 	COLLIDER_NONE = -1,
@@ -12,8 +14,8 @@ enum COLLIDER_TYPE {
 	COLLIDER_PLAYER,
 	COLLIDER_SPIKES,
 	COLLIDER_ACID,
-	WIN_COLLIDER,
-	MAX_COLLIDER
+	COLLIDER_FLAG,
+	COLLIDER_MAX
 
 };
 
@@ -36,7 +38,17 @@ struct Collider
 		rect.y = y;
 	}
 
+	void SetSize(int w, int h)
+	{
+		rect.w = w;
+		rect.h = h;
+	}
+
 	bool CheckCollision(const SDL_Rect& r) const;
+	bool CheckLeftCollider(const SDL_Rect& r, int dist)const;
+	bool CheckRightCollider(const SDL_Rect& r, int dist)const;
+	bool CheckBotCollider(const SDL_Rect& r, int dist)const;
+	bool CheckTopCollider(const SDL_Rect& r, int dist)const;
 };
 
 class j1Collisions :public j1Module
@@ -53,13 +65,11 @@ public:
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	void DebugDraw();
 
-	p2List<Collider*> colliders;
-	
 
 private:
 
-	Collider * collider[MAX_COLLIDER];
-	bool matrix[MAX_COLLIDER][MAX_COLLIDER];
+	Collider * colliders[MAX_COLLIDERS];
+	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 	bool debug = false;
 };
 

@@ -119,7 +119,7 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 
-	int map = 0;//Initializing map
+	int level = 0;//Initializing map
 
 	TileSet* GetTilesetFromTileId(int id) const;
 

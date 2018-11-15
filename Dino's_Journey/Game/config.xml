@@ -35,7 +35,7 @@
     <position x="100" y="500"/>
     <file_path>textures/player.tmx</file_path>
     <textures>textures/SpriteSheet.png</textures>
-    <Collider x="12" y="19" width ="66" height="70"/>
+    <Collider x="12" y="50" width ="55" height="46"/>
     <dynamics godmode="6.0f"/>
     <gravity value="1.0f"/>
     <jumping_time value="10"/>

@@ -33,6 +33,7 @@ public:
 public:
 
 	fPoint position;
+	fPoint speed;
 	
 	bool godMode = false;
 	bool isDead = false;

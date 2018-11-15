@@ -33,7 +33,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("maps/Newlevel1.tmx");
-	App->map->map = 0;
+	App->map->level = 0;
 	/*if (App->map->Load("maps/Newlevel1.tmx") == true)
 	{
 		int w, h;

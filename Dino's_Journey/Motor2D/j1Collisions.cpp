@@ -5,13 +5,14 @@
 #include "j1Player.h"
 #include "p2Log.h"
 #include "j1Window.h"
+#include "j1Map.h"
 
 j1Collisions::j1Collisions()
 {
 
-	for (uint i = 0; i < MAX_COLLIDER; ++i)
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
-		collider[i] = nullptr;
+		colliders[i] = nullptr;
 	}
 
 	name.create("Collision");
@@ -21,13 +22,13 @@ j1Collisions::j1Collisions()
 	matrix[COLLIDER_NONE][COLLIDER_WALLS] = false;
 	matrix[COLLIDER_NONE][COLLIDER_SPIKES] = false;
 	matrix[COLLIDER_NONE][COLLIDER_ACID] = false;
-	matrix[COLLIDER_NONE][WIN_COLLIDER] = false;
+	matrix[COLLIDER_NONE][COLLIDER_FLAG] = false;
 
 	matrix[COLLIDER_WALLS][COLLIDER_NONE] = false;
 	matrix[COLLIDER_WALLS][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALLS][COLLIDER_SPIKES] = false;
 	matrix[COLLIDER_WALLS][COLLIDER_ACID] = false;
-	matrix[COLLIDER_WALLS][WIN_COLLIDER] = false;
+	matrix[COLLIDER_WALLS][COLLIDER_FLAG] = false;
 	matrix[COLLIDER_WALLS][COLLIDER_WALLS] = false;
 
 
@@ -36,28 +37,28 @@ j1Collisions::j1Collisions()
 	matrix[COLLIDER_PLAYER][COLLIDER_WALLS] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_SPIKES] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ACID] = true;
-	matrix[COLLIDER_PLAYER][WIN_COLLIDER] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_FLAG] = true;
 
 	matrix[COLLIDER_SPIKES][COLLIDER_NONE] = false;
 	matrix[COLLIDER_SPIKES][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_SPIKES][COLLIDER_WALLS] = false;
 	matrix[COLLIDER_SPIKES][COLLIDER_ACID] = false;
-	matrix[COLLIDER_SPIKES][WIN_COLLIDER] = false;
+	matrix[COLLIDER_SPIKES][COLLIDER_FLAG] = false;
 	matrix[COLLIDER_SPIKES][COLLIDER_SPIKES] = false;
 
 	matrix[COLLIDER_ACID][COLLIDER_NONE] = true;
 	matrix[COLLIDER_ACID][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_ACID][COLLIDER_SPIKES] = false;
 	matrix[COLLIDER_ACID][COLLIDER_WALLS] = false;
-	matrix[COLLIDER_ACID][WIN_COLLIDER] = false;
+	matrix[COLLIDER_ACID][COLLIDER_FLAG] = false;
 	matrix[COLLIDER_ACID][COLLIDER_ACID] = false;
 
-	matrix[WIN_COLLIDER][COLLIDER_NONE] = true;
-	matrix[WIN_COLLIDER][COLLIDER_ACID] = false;
-	matrix[WIN_COLLIDER][COLLIDER_PLAYER] = true;
-	matrix[WIN_COLLIDER][COLLIDER_WALLS] = false;
-	matrix[WIN_COLLIDER][COLLIDER_SPIKES] = false;
-	matrix[WIN_COLLIDER][WIN_COLLIDER] = false;
+	matrix[COLLIDER_FLAG][COLLIDER_NONE] = true;
+	matrix[COLLIDER_FLAG][COLLIDER_ACID] = false;
+	matrix[COLLIDER_FLAG][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_FLAG][COLLIDER_WALLS] = false;
+	matrix[COLLIDER_FLAG][COLLIDER_SPIKES] = false;
+	matrix[COLLIDER_FLAG][COLLIDER_FLAG] = false;
 
 }
 
@@ -68,45 +69,13 @@ j1Collisions::~j1Collisions()
 
 bool j1Collisions::PreUpdate()
 {
-	p2List_item<Collider*>*item;
-	item = colliders.start;
-
-	while(item!=NULL)
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
-		if (item->data->to_delete == true)
+		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
 		{
-			RELEASE(item->data)
+			delete colliders[i];
+			colliders[i] = nullptr;
 		}
-
-		item = item->next;
-	}
-
-	Collider* col1;
-	Collider* col2;
-
-	for (uint i = 0; i < MAX_COLLIDER; ++i) 
-	{
-		if (collider[i] == nullptr) continue;
-
-		if (collider[i]->type == COLLIDER_PLAYER || collider[i]->type == COLLIDER_NONE)
-		{
-			col1 = collider[i];
-
-			for (uint j = 0; j < MAX_COLLIDER; ++j)
-			{
-
-				if (collider[j] == nullptr || i == j) continue;
-
-				col2 = collider[j];
-
-				if (col1->CheckCollision(col2->rect) == true)
-				{
-					if (matrix[col1->type][col2->type] && col1->callback)
-						col1->callback->OnCollision(col1, col2);
-				}
-			}
-		}
-
 	}
 
 	return true;
@@ -114,6 +83,60 @@ bool j1Collisions::PreUpdate()
 
 bool j1Collisions::Update(float dt)
 {
+	Collider* col;
+
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		if (colliders[i] == nullptr || colliders[i]->type == COLLIDER_NONE || colliders[i]->type == COLLIDER_PLAYER)
+			continue;
+
+		if (colliders[i]->type == COLLIDER_WALLS)
+		{
+			if (colliders[i]->CheckBotCollider(App->player->colPlayer->rect, ceil(App->player->gravity))) //ceil rounds the number up, to the biggest possible. For example of 5.6, the ceil would be 6
+				App->player->isTouchingGround = true;
+
+			if (colliders[i]->CheckTopCollider(App->player->colPlayer->rect, ceil(App->player->speed.y)))
+				App->player->hasWallAbove = true;
+
+			if (colliders[i]->CheckLeftCollider(App->player->colPlayer->rect, ceil(App->player->speedMultiplierX)))
+				App->player->hasWallBehind = true;
+
+			if (colliders[i]->CheckRightCollider(App->player->colPlayer->rect, ceil(App->player->speedMultiplierX)))
+				App->player->hasWallInFront = true;
+
+		}
+
+		else if (colliders[i]->type == COLLIDER_ACID || colliders[i]->type == COLLIDER_SPIKES || colliders[i]->type == COLLIDER_FLAG)
+		{
+			col = colliders[i];
+
+			if (App->player->colPlayer->CheckCollision(col->rect) == true)
+			{
+
+				if (matrix[App->player->colPlayer->type][col->type])
+				{
+					if (col->type == COLLIDER_ACID || col->type == COLLIDER_SPIKES)
+						App->player->isDead = true;
+					else if (col->type == COLLIDER_FLAG)
+					{
+						if (App->map->level == 0)
+						{
+							App->map->CleanUp();
+							App->map->Load("Newlevel2.tmx");
+							App->map->level = 1;
+						}
+						else if (App->map->level == 1)
+						{
+							App->map->CleanUp();
+							App->map->Load("Newlevel1.tmx");
+							App->map->level = 0;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	DebugDraw();
 
 	return true;
@@ -125,12 +148,12 @@ bool j1Collisions::CleanUp()
 
 	LOG("Freeing all colliders");
 
-	for (uint i = 0; i < MAX_COLLIDER; ++i)
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
-		if (collider[i] != nullptr)
+		if (colliders[i] != nullptr)
 		{
-			delete collider[i];
-			collider[i] = nullptr;
+			delete colliders[i];
+			colliders[i] = nullptr;
 		}
 	}
 
@@ -141,12 +164,12 @@ Collider* j1Collisions::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module*
 {
 	Collider* ret = nullptr;
 
-	for (uint i = 0; i < MAX_COLLIDER; ++i)
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 
-		if (collider[i] == nullptr)
+		if (colliders[i] == nullptr)
 		{
-			ret = collider[i] = new Collider(rect, type, callback);
+			ret = colliders[i] = new Collider(rect, type, callback);
 			break;
 		}
 	}
@@ -163,48 +186,114 @@ void j1Collisions::DebugDraw()
 	if (debug == false)
 		return;
 
-	p2List_item <Collider*> *item;
-	item = colliders.start;
-
 	Uint8 alpha = 80;
 
-	while (item != NULL)
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
+		if (colliders[i] == nullptr)
+			continue;
 
-		switch (item->data->type)
+		switch (colliders[i]->type)
 		{
 		case COLLIDER_NONE: // white
-			App->render->DrawQuad(item->data->rect, 255, 255, 255, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
 			break;
 		case COLLIDER_WALLS: // red
-			App->render->DrawQuad(item->data->rect, 255, 0, 0, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
 		case COLLIDER_PLAYER: // green
-			App->render->DrawQuad(item->data->rect, 0, 255, 0, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 		case COLLIDER_SPIKES:
-			App->render->DrawQuad(item->data->rect, 0, 0, 255, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
 			break;
 		case COLLIDER_ACID:
-			App->render->DrawQuad(item->data->rect, 0, 0, 255, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
 			break;
 
-		case WIN_COLLIDER: // blue
-			App->render->DrawQuad(item->data->rect, 0, 0, 128, alpha);
+		case COLLIDER_FLAG: // blue
+			App->render->DrawQuad(colliders[i]->rect, 0, 0, 128, alpha);
 			break;
 
 		}
-		item = item->next;
 	}
 
 }
 
 
-bool Collider::CheckCollision(const SDL_Rect & r) const
+bool Collider::CheckCollision(const SDL_Rect& r) const
 {
 	return (rect.x <= r.x + r.w &&
 		rect.x + rect.w >= r.x &&
 		rect.y <= r.y + r.h &&
 		rect.h + rect.y >= r.y);
 
+}
+
+bool Collider::CheckLeftCollider(const SDL_Rect& r, int dist)const
+{
+	bool ret;
+
+	if (r.y + r.h > rect.y &&
+		r.y < rect.y + rect.h &&
+		r.x < rect.x + rect.w + dist &&
+		r.x + r.w > rect.x)
+	{
+		ret = true;
+	}
+	else
+		ret = false;
+
+	return ret;
+}
+
+bool Collider::CheckRightCollider(const SDL_Rect& r, int dist)const
+{
+	bool ret;
+
+	if (r.y + r.h > rect.y &&
+		r.y < rect.y + rect.h &&
+		r.x + r.w > rect.x - dist &&
+		r.x < rect.x + rect.w)
+	{
+		ret = true;
+	}
+	else
+		ret = false;
+
+	return ret;
+}
+
+bool Collider::CheckTopCollider(const SDL_Rect& r, int dist)const
+{
+	bool ret;
+
+	if (r.y + r.h > rect.y &&
+		r.y < rect.y + rect.h + dist &&
+		r.x + r.w > rect.x &&
+		r.x < rect.x + rect.w)
+	{
+		ret = true;
+	}
+	else
+		ret = false;
+
+	return ret;
+}
+
+bool Collider::CheckBotCollider(const SDL_Rect& r, int dist)const
+{
+	bool ret;
+
+	if (r.y < rect.y + rect.h &&
+		r.y + r.h > rect.y - dist &&
+		r.x + r.w > rect.x  &&
+		r.x < rect.x + rect.w)
+	{
+		ret = true;
+	}
+	else
+		ret = false;
+
+	return ret;
 }

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="510" height="413" tilewidth="1" tileheight="1" infinite="0" nextobjectid="194">
- <objectgroup name="Collider" locked="1">
-  <object id="193" x="171" y="63" width="46" height="49"/>
- </objectgroup>
  <imagelayer name="Sprites" locked="1">
   <image source="SpriteSheet.png" width="510" height="413"/>
  </imagelayer>
@@ -51,5 +48,8 @@
   <object id="190" x="425" y="295" width="85" height="59"/>
   <object id="191" x="0" y="354" width="85" height="59"/>
   <object id="192" x="85" y="354" width="85" height="59"/>
+ </objectgroup>
+ <objectgroup name="Collider" locked="1">
+  <object id="193" x="171" y="63" width="46" height="49"/>
  </objectgroup>
 </map>
