@@ -101,6 +101,7 @@
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Entity.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.h" />
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\p2PQueue.h" />
     <ClInclude Include="J1PerfTimer.h" />
     <ClInclude Include="j1Timer.h" />
     <ClInclude Include="j1Pathfinding.h" />
