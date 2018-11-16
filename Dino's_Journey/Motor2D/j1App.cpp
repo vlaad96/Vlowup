@@ -11,15 +11,21 @@
 #include "j1Audio.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include "j1Entities.h"
 #include "j1App.h"
-#include "j1Player.h"
+#include "j1Timer.h"
+#include "j1PerfTimer.h"
 #include "j1Collisions.h"
 #include "j1Pathfinding.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
-	PERF_START(ptimer);
+	frames = 0;
+	want_to_save = want_to_load = false;
+
+	load_game = "save_game.xml";
+	save_game = "save_game.xml";
 
 	input = new j1Input();
 	win = new j1Window();
@@ -28,7 +34,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
-	player = new j1Player();
+	entities = new j1Entities();
 	collision = new j1Collisions();
 	pathfinding = new j1PathFinding();
 
@@ -39,10 +45,11 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
-	AddModule(scene);
-	AddModule(player);
-	AddModule(collision);
 	AddModule(pathfinding);
+	AddModule(scene);
+	AddModule(collision);
+	AddModule(entities);
+	
 
 	// render last to swap buffer
 	AddModule(render);
@@ -93,6 +100,7 @@ bool j1App::Awake()
 		organization.create(app_config.child("organization").child_value());
 
 		framerate_cap = app_config.attribute("framerate_cap").as_uint();//CHEEEECK
+		LOG("Framerate %d", framerate_cap);
 	}
 
 	if(ret == true)
@@ -106,6 +114,8 @@ bool j1App::Awake()
 			item = item->next;
 		}
 	}
+
+	PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -123,7 +133,13 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
-	startup_time.Start();
+	if (last_sec_frame_time.ReadSec() < 1000)
+		frames++;
+	else 
+	{
+		frame_count = frames;
+		frames = frames-frame_count;
+	}
 
 	PERF_PEEK(ptimer);
 
@@ -172,9 +188,15 @@ void j1App::PrepareUpdate()
 	frame_count++;
 	last_sec_frame_count++;
 
+	dt = frame_time.ReadSec();
+	if (dt > 5.0f / (float)framerate_cap)
+		dt = 5.0f / (float)framerate_cap;
+	else
+		dt = 0.0f;
+
 	frame_time.Start();
 
-	dt = frame_time.Read();//CHEEEECK 
+	ptimer.Start();
 }
 
 // ---------------------------------------------
@@ -205,13 +227,15 @@ void j1App::FinishUpdate()
 		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
 	App->win->SetTitle(title);
 
-	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
-	//if (last_frame_ms < 1000 / framerate_cap)//CHEEEECK
-	//{
-	//	SDL_Delay(1000 / framerate_cap - last_frame_ms);
-	//}
-	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	//LOG("We waited for %d milliseconds and got back in %d", last_frame_ms, 1000 / framerate_cap - last_frame_ms);//CHEEEECK
+	uint32 framerate = 1000 / framerate_cap;
+	uint32 delay = framerate - ptimer.ReadMs();
+	float realTime;
+
+	if (ptimer.ReadMs() < framerate)
+	{
+		SDL_Delay(delay);
+		realTime = ptimer.ReadMs();
+	}
 }
 
 // Call modules before each loop iteration
@@ -252,9 +276,6 @@ bool j1App::DoUpdate()
 			continue;
 		}
 		
-		// TODO 5: send dt as an argument to all updates
-		// you will need to update module parent class
-		// and all modules that use update
 		ret = item->data->Update(dt);
 	}
 

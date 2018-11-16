@@ -2,6 +2,8 @@
 #define __j1APP_H__
 
 #include "p2List.h"
+#include "p2DynArray.h"
+#include "p2Defs.h"
 #include "j1Module.h"
 #include "j1PerfTimer.h"
 #include "j1Timer.h"
@@ -16,8 +18,9 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Collisions;
-class j1Player;
+class j1Entities;
 class j1PathFinding;
+
 
 class j1App
 {
@@ -81,20 +84,24 @@ private:
 public:
 
 	// Modules
-	j1Window*			win = NULL;
-	j1Input*			input = NULL;
-	j1Render*			render = NULL;
-	j1Textures*			tex = NULL;
-	j1Audio*			audio = NULL;
-	j1Scene*			scene = NULL;
-	j1Map*				map = NULL;
-	j1Collisions*		collision = NULL;
-	j1Player*			player = NULL;
-	j1PathFinding*		pathfinding = NULL;
+	j1Window*			win = nullptr;
+	j1Input*			input = nullptr;
+	j1Render*			render = nullptr;
+	j1Textures*			tex = nullptr;
+	j1Audio*			audio = nullptr;
+	j1Scene*			scene = nullptr;
+	j1Map*				map = nullptr;
+	j1Collisions*		collision = nullptr;
+	j1Entities*			entities = nullptr;
+	j1PathFinding*		pathfinding = nullptr;
+
+	
 
 private:
 
 	p2List<j1Module*>	modules;
+	uint32				frames;
+
 	int					argc;
 	char**				args;
 
@@ -114,6 +121,7 @@ private:
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
 	uint32				framerate_cap = 0;
+	int					msCap;
 	float				dt = 0;
 };
 

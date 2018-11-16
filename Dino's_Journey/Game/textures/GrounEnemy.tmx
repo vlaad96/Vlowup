@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="200" height="44" tilewidth="1" tileheight="1" infinite="0" nextobjectid="9">
+ <imagelayer name="Sprites" locked="1">
+  <image source="GroundEnemy.png" width="200" height="44"/>
+ </imagelayer>
+ <objectgroup name="Collider" locked="1">
+  <object id="1" x="100" y="0" width="50" height="44"/>
+ </objectgroup>
+ <objectgroup name="Idle" locked="1">
+  <object id="3" x="0" y="0" width="50" height="44"/>
+  <object id="4" x="50" y="0" width="50" height="44"/>
+  <object id="7" x="100" y="0" width="50" height="44"/>
+ </objectgroup>
+ <objectgroup name="Dead">
+  <object id="8" x="150" y="0" width="50" height="44"/>
+ </objectgroup>
+</map>
