@@ -7,14 +7,12 @@
 #include "Animation.h"
 #include "Player.h"
 
-class FlyingEnemy : public Entity
+class GroundEnemy :public Entity
 {
 public:
 
-	FlyingEnemy(int x, int y);
-	~FlyingEnemy();
+	GroundEnemy(int x, int y);
+	~GroundEnemy();
 
 	Animation* idle;
-
-
 };

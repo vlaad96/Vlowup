@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\Entity.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.cpp" />
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\GroundEnemy.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Collisions.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.cpp" />
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Transition.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Animation.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\Entity.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\FlyingEnemy.h" />
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\GroundEnemy.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\j1Entities.h" />
     <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\p2PQueue.h" />
     <ClInclude Include="j1Transition.h" />

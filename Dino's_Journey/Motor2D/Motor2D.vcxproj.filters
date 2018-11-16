@@ -61,6 +61,9 @@
     <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\j1Transition.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Dino%27s_Journey\Motor2D\GroundEnemy.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="j1Transition.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dino%27s_Journey\Motor2D\GroundEnemy.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Entity\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
