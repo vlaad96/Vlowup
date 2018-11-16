@@ -32,6 +32,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void SceneChange(int x, int y);
+
 private:
 };
 

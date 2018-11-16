@@ -10,6 +10,7 @@
 #include "j1PathFinding.h"
 #include "j1Scene.h"
 #include "j1Entities.h"
+#include "j1Transition.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -52,6 +53,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	
 	return true;
 }
 

@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Entities.h"
+#include "Entity.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -38,7 +39,7 @@ void j1Map::Draw()
 	for (int i = 0; i < data.images.count(); ++i)
 	{
 		App->render->Blit(data.images[i]->texture, 
-			(data.background_offset.x - player->displacemetX) * data.parallax_speed,
+			(data.background_offset.x - player->displacementX) * data.parallax_speed,
 			data.background_offset.y,
 			&data.images[i]->GetImageRect());
 	}
