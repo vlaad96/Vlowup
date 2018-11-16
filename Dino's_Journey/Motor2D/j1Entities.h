@@ -15,13 +15,15 @@ enum ENTITY_TYPES
 {
 	NO_TYPE,
 	PLAYER,
-	FLYING_ENEMY
+	FLYING_ENEMY,
+	GROUND_ENEMY
 
 };
 
 struct EntityInfo
 {
 	ENTITY_TYPES type = ENTITY_TYPES::NO_TYPE;
+	int x, y;
 };
 
 class j1Entities : public j1Module

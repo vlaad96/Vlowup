@@ -34,7 +34,7 @@ bool j1Entities::Awake(pugi::xml_node& config)
 bool j1Entities::Start()
 {
 
-	player = new Player(PLAYER);
+	player = new Player(0,0,PLAYER);
 	player->Start();
 
 	return true;
