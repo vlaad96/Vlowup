@@ -11,10 +11,21 @@ class FlyingEnemy : public Entity
 {
 public:
 
-	FlyingEnemy(int x, int y);
+	FlyingEnemy(int x, int y, ENTITY_TYPES type);
 	~FlyingEnemy();
+
+	bool Awake(pugi::xml_node& config);
+	bool Update(float dt);
+
+	bool Save(pugi::xml_node& config)const;
+	bool Load(pugi::xml_node& config);
+
+public:
 
 	Animation* idle;
 
+private:
+
+	float movSpeed = 0;
 
 };
